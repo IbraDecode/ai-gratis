@@ -41,7 +41,6 @@
   --font-mono:'JetBrains Mono','SF Mono','Fira Code','Cascadia Code',monospace;
   --sidebar-w-collapsed:76px;
   --sidebar-w-expanded:304px;
-  --topbar-h:52px;
   --radius-sm:8px;
   --radius-md:12px;
   --radius-lg:18px;
@@ -94,7 +93,6 @@ a:hover{text-decoration:underline}
 @keyframes auroraDrift1{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.4;transform:translate(-15px,10px) scale(1.04)}50%{opacity:0.25;transform:translate(10px,-8px) scale(0.96)}75%{opacity:0.5;transform:translate(-5px,15px) scale(1.02)}}
 @keyframes auroraDrift2{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.3;transform:translate(10px,-10px) scale(1.02)}50%{opacity:0.15;transform:translate(-8px,12px) scale(0.97)}75%{opacity:0.4;transform:translate(5px,-5px) scale(1.03)}}
 @keyframes auroraDrift3{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.2;transform:translate(-8px,-3px) scale(1.03)}50%{opacity:0.08;transform:translate(12px,6px) scale(0.98)}75%{opacity:0.3;transform:translate(-3px,8px) scale(1.01)}}
-@keyframes auroraStart{to{opacity:1}}
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-primary);opacity:1;transition:opacity 500ms var(--ease-smooth),visibility 500ms var(--ease-smooth)}
@@ -131,16 +129,16 @@ a:hover{text-decoration:underline}
 .onboard-center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:0 24px;position:relative;z-index:1;margin-top:-5vh}
 .onboard-robot-wrap{position:relative;width:100px;height:100px;margin-bottom:14px;animation:onboardElIn 800ms var(--ease-smooth) 400ms both}
 .onboard-robot-glow{position:absolute;inset:-15px;border-radius:50%;background:radial-gradient(circle,rgba(110,168,255,0.08),transparent 70%);pointer-events:none;animation:robotGlowPulse 4s ease-in-out infinite}
-.onboard-robot-svg{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 4px 16px rgba(110,168,255,0.04))}
+.onboard-robot-lottie{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 4px 16px rgba(110,168,255,0.04))}
 .onboard-greeting{font-size:38px;font-weight:500;letter-spacing:-0.03em;color:var(--text-primary);animation:onboardElIn 600ms var(--ease-smooth) 1000ms both}
 .onboard-sub{font-size:15.5px;color:var(--text-secondary);font-weight:400;animation:onboardElIn 600ms var(--ease-smooth) 1400ms both}
 .onboard-field{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:8px;animation:onboardElIn 600ms var(--ease-smooth) 2000ms both}
 .onboard-label{font-size:14px;color:var(--text-muted);font-weight:400}
-.onboard-input-row{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:100px;padding:3px;transition:all 400ms var(--ease-out);max-width:300px;width:100%}
+.onboard-input-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:100px;padding:5px;transition:all 400ms var(--ease-out);max-width:340px;width:100%}
 .onboard-input-row:focus-within{border-color:rgba(110,168,255,0.12);box-shadow:0 0 20px rgba(110,168,255,0.03);background:rgba(255,255,255,0.04)}
-.onboard-input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-size:15px;padding:9px 14px;font-family:var(--font-sans);caret-color:var(--accent-blue);min-width:0;width:150px}
+.onboard-input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-size:16px;padding:12px 18px;font-family:var(--font-sans);caret-color:var(--accent-blue);min-width:0;width:160px}
 .onboard-input::placeholder{color:var(--text-disabled)}
-.onboard-btn{padding:7px 18px;border-radius:100px;font-size:14px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);transition:all 300ms var(--ease-out);cursor:default;border:none;font-family:inherit;white-space:nowrap}
+.onboard-btn{padding:10px 22px;border-radius:100px;font-size:15px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);transition:all 300ms var(--ease-out);cursor:default;border:none;font-family:inherit;white-space:nowrap}
 .onboard-btn.active{color:var(--bg-primary);background:var(--text-primary);cursor:pointer}
 .onboard-btn.active:hover{background:rgba(255,255,255,0.9);transform:scale(1.03);box-shadow:0 0 20px rgba(255,255,255,0.05)}
 .onboard-btn.active:active{transform:scale(0.97)}
@@ -198,7 +196,7 @@ a:hover{text-decoration:underline}
 .sidebar.collapsed .sidebar-menu-item{justify-content:center;padding:10px 0}
 .sidebar.collapsed .sidebar-menu-item span{opacity:0;max-width:0;overflow:hidden;pointer-events:none}
 
-.sidebar-section-title{font-size:10.5px;font-weight:550;color:var(--text-disabled);letter-spacing:0.06em;text-transform:uppercase;padding:10px 14px 6px;transition:opacity 200ms var(--ease-out),max-height 250ms var(--ease-out)}
+.sidebar-section-title{font-size:10.5px;font-weight:550;color:var(--text-disabled);letter-spacing:0.06em;text-transform:uppercase;padding:10px 14px 6px;transition:opacity 200ms var(--ease-out)}
 .sidebar-section-spacer{margin-top:4px}
 .sidebar.collapsed .sidebar-section-title{opacity:0;max-height:0;padding:0 14px;overflow:hidden;pointer-events:none}
 
@@ -223,8 +221,8 @@ a:hover{text-decoration:underline}
 .history-item .delete-btn:hover{color:var(--danger);background:rgba(255,80,80,0.08)}
 .sidebar.collapsed .sidebar-history{max-height:0}
 
-.sidebar-footer{flex-shrink:0;margin-top:auto;border-top:1px solid rgba(255,255,255,0.06);padding:8px 2px 2px;display:flex;flex-direction:column;gap:4px;transition:opacity 200ms var(--ease-out),max-height 250ms var(--ease-out)}
-.sidebar.collapsed .sidebar-footer{opacity:0;overflow:hidden;pointer-events:none}
+.sidebar-footer{flex-shrink:0;margin-top:auto;border-top:1px solid rgba(255,255,255,0.06);padding:8px 2px 2px;display:flex;flex-direction:column;gap:4px;transition:opacity 200ms var(--ease-out)}
+.sidebar.collapsed .sidebar-footer{opacity:0;max-height:0;padding:0;overflow:hidden;pointer-events:none}
 
 .sidebar-profile{display:flex;align-items:center;gap:10px;padding:4px 12px;border-radius:var(--radius-md);transition:all var(--transition-fast);cursor:pointer}
 .sidebar-profile:hover{background:rgba(255,255,255,0.03)}
@@ -237,7 +235,12 @@ a:hover{text-decoration:underline}
 .profile-settings-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-secondary)}
 
 .sidebar-server{display:flex;align-items:center;gap:6px;padding:6px 12px 2px;font-size:11px;color:var(--text-disabled)}
-.sidebar-server .status-dot{width:5px;height:5px}
+.sidebar-server .status-dot{width:5px;height:5px;border-radius:var(--radius-full);flex-shrink:0;transition:all 350ms var(--ease-out)}
+.sidebar-server .status-dot.online{background:var(--accent-green);box-shadow:0 0 8px rgba(126,231,184,0.25);animation:breathing 3s ease-in-out infinite}
+.sidebar-server .status-dot.offline{background:var(--text-disabled)}
+.sidebar-server .status-dot.checking{background:var(--text-muted);animation:pulse 1.5s var(--ease-in-out) infinite}
+@keyframes breathing{0%,100%{box-shadow:0 0 6px rgba(126,231,184,0.2)}50%{box-shadow:0 0 14px rgba(126,231,184,0.35)}}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
 .sidebar-server .server-status-text{color:var(--text-disabled);transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);max-width:80px;overflow:hidden;white-space:nowrap}
 .sidebar.collapsed .sidebar-server .server-status-text{opacity:0;max-width:0;overflow:hidden}
 
@@ -251,11 +254,14 @@ a:hover{text-decoration:underline}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;height:100vh;height:100dvh;background:transparent}
 
 /* TOP BAR — minimal clean */
-#topbar{display:flex;align-items:center;justify-content:space-between;height:var(--topbar-h);padding:0 20px;flex-shrink:0;position:relative;z-index:10;background:rgba(10,10,13,0.4);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:0 0 20px 20px;margin:0 0 0 0;transition:opacity 350ms var(--ease-out),transform 350ms var(--ease-out),background 400ms var(--ease-out),backdrop-filter 400ms var(--ease-out);box-shadow:0 1px 0 rgba(255,255,255,0.02) inset}
-#topbar.hidden{opacity:0;transform:translateY(-100%) scale(0.95);pointer-events:none;border-radius:0}
-#topbar.scrolled{background:rgba(10,10,13,0.7);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 2px 0 rgba(255,255,255,0.03) inset,0 4px 20px rgba(0,0,0,0.1)}
-.topbar-left{display:flex;align-items:center;gap:10px}
-.topbar-right{display:flex;align-items:center;gap:6px}
+#topbar{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 16px;flex-shrink:0;position:relative;z-index:10;background:rgba(20,20,24,0.58);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:28px;margin:12px 12px 0;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 40px rgba(0,0,0,0.28),0 0 30px rgba(110,168,255,0.03);transition:opacity 350ms var(--ease-out),transform 350ms var(--ease-out),background 400ms var(--ease-out),backdrop-filter 400ms var(--ease-out),box-shadow 400ms var(--ease-out)}
+#topbar::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to bottom,rgba(255,255,255,0.08),transparent 55%);pointer-events:none;z-index:0}
+#topbar.hidden{opacity:0;transform:translateY(-72px) scale(0.95);pointer-events:none;border-radius:28px}
+#topbar.scrolled{background:rgba(20,20,24,0.65);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);box-shadow:0 8px 40px rgba(0,0,0,0.32),0 0 30px rgba(110,168,255,0.05)}
+.topbar-left{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.topbar-center{display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+.topbar-right{display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+.topbar-title{font-size:15px;font-weight:600;color:var(--text-primary);letter-spacing:-0.01em}
 .mobile-menu-btn{display:none;width:34px;height:34px;align-items:center;justify-content:center;border-radius:var(--radius-md);color:var(--text-muted);transition:all var(--transition-fast)}
 .mobile-menu-btn:hover{background:rgba(255,255,255,0.04);color:var(--text-primary)}
 @media(max-width:900px){.mobile-menu-btn{display:flex}}
@@ -271,7 +277,7 @@ a:hover{text-decoration:underline}
 .server-badge .dot.online{background:var(--accent-green);box-shadow:0 0 5px rgba(126,231,184,0.2);animation:badgePulse 2.5s ease-in-out infinite}
 @keyframes badgePulse{0%,100%{box-shadow:0 0 4px rgba(126,231,184,0.15)}50%{box-shadow:0 0 10px rgba(126,231,184,0.3)}}
 .server-badge .dot.offline{background:var(--text-disabled)}
-@media(max-width:640px){.server-badge{display:none}#topbar{padding:0 8px}}
+@media(max-width:640px){.server-badge{display:none}#topbar{margin:8px 8px 0;padding:0 10px;border-radius:24px;height:54px}}
 #search-bar{display:none;align-items:center;gap:8px;padding:6px 16px;background:rgba(16,16,20,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:relative;z-index:15;animation:slideDown 200ms var(--ease-out) both}
 #search-bar.open{display:flex}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
@@ -364,7 +370,7 @@ body.kbd-open #main{height:100vh}
 @keyframes robotAppear{from{opacity:0;transform:scale(0.95);filter:blur(8px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
 .robot-glow-bg{position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(110,168,255,0.06),transparent 70%);pointer-events:none;animation:robotGlowPulse 4s ease-in-out infinite}
 @keyframes robotGlowPulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:0.7;transform:scale(1.08)}}
-.robot-svg{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(110,168,255,0.06))}
+.robot-lottie{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(110,168,255,0.06))}
 @keyframes robotFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-4px) rotate(0.4deg)}50%{transform:translateY(-2px) rotate(-0.3deg)}75%{transform:translateY(-5px) rotate(0.3deg)}}
 @media(max-width:640px){.robot-container{width:96px;height:96px;margin-bottom:18px}}
 
@@ -654,10 +660,10 @@ body.kbd-open #main{height:100vh}
    .input-wrapper:not(:focus-within):not(:hover):not(.streaming)::before{animation:none}
     .empty-state.animate{animation:none;opacity:1}
     .robot-container{animation:none;opacity:1;filter:none}
-    .robot-svg{animation:none}
+    .robot-lottie{animation:none}
     .robot-glow-bg{animation:none;opacity:0.3}
     .input-wrapper:focus-within::before{animation:none;opacity:0}
-   .sidebar-item.active::before,.history-item,.message-ai-text pre,.model-bar-pill,.streaming-caret{animation:none}
+    .history-item,.message-ai-text pre,.model-bar-pill,.streaming-caret{animation:none}
    .message-ai-text.stream-flash{animation:none}
    .model-bar-pill.active{animation:none}
    .status-dot.online{animation:none}
@@ -670,27 +676,23 @@ body.kbd-open #main{height:100vh}
    .message-exit{animation:none;opacity:1}
    .search-highlight,.message.search-active .message-bubble,.message.search-active .message-ai-text{animation:none}
    #topbar.scrolled{background:rgba(10,10,13,0.4);backdrop-filter:none}
-   .sidebar-item::before{display:none}
-   .ripple-el{display:none}
+    .ripple-el{display:none}
     .empty-state-greeting{animation:none;opacity:1}
     #onboarding.closing{opacity:0;transform:none;filter:none;transition:none}
     .onboard-greeting,.onboard-sub,.onboard-field,.onboard-robot-wrap{animation:none;opacity:1;filter:none}
     .onboard-aurora::before,.onboard-aurora::after{animation:none;opacity:0.2}
-    .onboard-robot-svg{animation:none}
+    .onboard-robot-lottie{animation:none}
     .onboard-robot-glow{animation:none;opacity:0.3}
     .msg-action.reaction-up.active svg,.msg-action.reaction-down.active svg{animation:none}
    #settings-overlay.open,#shortcuts-overlay.open,#confirm-overlay.open{animation:none;opacity:1}
    .model-bar-pill.active{animation:none}
-    .sidebar-item:hover svg{transform:none}
     .sidebar-close-btn:hover{background:none}
+    .sidebar-menu-item:hover{transform:none}
+    .sidebar-menu-item:hover svg{transform:none}
     .sidebar-new-chat:hover{transform:none;background:rgba(255,255,255,0.06)}
-   .server-badge .dot.online{animation:none}
-   .send-btn.has-text:hover::before{display:none}
-   .send-btn:not(:hover):not(:active):not(.streaming).has-text::before{display:none}
+    .server-badge .dot.online{animation:none}
     .avatar-img{transition:none}
-   .sidebar-item:first-child svg{animation:none}
-   .model-bar-pill:hover .model-icon,.model-bar-pill.active .model-icon{transform:none}
-   .sidebar-item.active::before{animation:indicatorIn 300ms var(--ease-out) 60ms forwards}
+    .model-bar-pill:hover .model-icon,.model-bar-pill.active .model-icon{transform:none}
    .splash-dot{animation:none;opacity:0.5}
    .message-ai-label.streaming{animation:none;color:var(--text-muted)}
  }
@@ -719,28 +721,15 @@ body.kbd-open #main{height:100vh}
   <div class="onboard-center">
     <div class="onboard-robot-wrap">
       <div class="onboard-robot-glow"></div>
-      <svg class="onboard-robot-svg" viewBox="0 0 120 120" aria-hidden="true">
-        <defs>
-          <linearGradient id="oHead" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="rgba(110,168,255,0.08)"/><stop offset="100%" stop-color="rgba(126,231,184,0.04)"/></linearGradient>
-          <radialGradient id="oGlow"><stop offset="0%" stop-color="rgba(110,168,255,0.12)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-        </defs>
-        <rect x="15" y="22" width="90" height="76" rx="34" fill="url(#oHead)" stroke="rgba(110,168,255,0.06)" stroke-width="1"/>
-        <circle cx="42" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
-        <circle cx="78" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
-        <circle cx="42" cy="52" r="9" fill="url(#oGlow)"/>
-        <circle cx="78" cy="52" r="9" fill="url(#oGlow)"/>
-        <path d="M38 70 Q60 82 82 70" stroke="rgba(110,168,255,0.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <line x1="60" y1="22" x2="60" y2="8" stroke="rgba(110,168,255,0.04)" stroke-width="1.2" stroke-linecap="round"/>
-        <circle cx="60" cy="8" r="3" fill="rgba(110,168,255,0.08)"/>
-      </svg>
+            <dotlottie-wc class="onboard-robot-lottie" src="https://lottie.host/107d05cc-f3b4-401f-9b3e-e4183a8ca88b/kreShd5ufv.lottie" autoplay loop></dotlottie-wc>
     </div>
-    <div class="onboard-greeting" id="onboard-greeting">yo 👋</div>
-    <div class="onboard-sub" id="onboard-sub">akhirnya nongol juga.</div>
+    <div class="onboard-greeting" id="onboard-greeting">Yo 👋</div>
+    <div class="onboard-sub" id="onboard-sub">Akhirnya nongol juga.</div>
     <div class="onboard-field" id="onboard-field">
-      <div class="onboard-label">gue manggil lo siapa?</div>
+      <div class="onboard-label">Gue manggil lo siapa?</div>
       <div class="onboard-input-row">
-        <input type="text" class="onboard-input" id="onboard-name" placeholder="ketik nama lo..." maxlength="30" autocomplete="off">
-        <button class="onboard-btn" id="onboard-btn" disabled>gas</button>
+        <input type="text" class="onboard-input" id="onboard-name" placeholder="Ketik nama lo..." maxlength="30" autocomplete="off">
+            <button class="onboard-btn" id="onboard-btn" disabled>Gas</button>
       </div>
     </div>
     <div class="onboard-response" id="onboard-response"></div>
@@ -748,7 +737,6 @@ body.kbd-open #main{height:100vh}
 </div>
 
 <div id="app">
-  <div id="sidebar-overlay"></div>
   <aside id="sidebar" class="expanded" role="navigation" aria-label="Sidebar utama">
     <div class="sidebar-inner">
       <div class="sidebar-header">
@@ -835,6 +823,7 @@ body.kbd-open #main{height:100vh}
         <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Buka menu">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
+        <span class="topbar-title">SIbra</span>
       </div>
       <div class="topbar-right">
         <div class="server-badge" id="server-badge" role="status" aria-label="Status server">
@@ -869,24 +858,11 @@ body.kbd-open #main{height:100vh}
         <div class="empty-state animate" id="empty-state">
           <div class="robot-container" id="robot-container">
             <div class="robot-glow-bg"></div>
-            <svg class="robot-svg" viewBox="0 0 120 120" aria-hidden="true">
-              <defs>
-                <linearGradient id="rHead" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="rgba(110,168,255,0.08)"/><stop offset="100%" stop-color="rgba(126,231,184,0.04)"/></linearGradient>
-                <radialGradient id="rGlow"><stop offset="0%" stop-color="rgba(110,168,255,0.12)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-              </defs>
-              <rect x="15" y="22" width="90" height="76" rx="34" fill="url(#rHead)" stroke="rgba(110,168,255,0.06)" stroke-width="1"/>
-              <circle cx="42" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
-              <circle cx="78" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
-              <circle cx="42" cy="52" r="9" fill="url(#rGlow)"/>
-              <circle cx="78" cy="52" r="9" fill="url(#rGlow)"/>
-              <path d="M38 70 Q60 82 82 70" stroke="rgba(110,168,255,0.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-              <line x1="60" y1="22" x2="60" y2="8" stroke="rgba(110,168,255,0.04)" stroke-width="1.2" stroke-linecap="round"/>
-              <circle cx="60" cy="8" r="3" fill="rgba(110,168,255,0.08)"/>
-            </svg>
+            <dotlottie-wc class="robot-lottie" src="https://lottie.host/107d05cc-f3b4-401f-9b3e-e4183a8ca88b/kreShd5ufv.lottie" autoplay loop></dotlottie-wc>
           </div>
           <div class="empty-text">
-            <div class="empty-state-greeting" id="empty-greeting">yo <span id="empty-user-name">Ibra</span> 👋</div>
-            <div class="empty-state-hint" id="empty-hint">lagi pengen bikin apa hari ini?</div>
+            <div class="empty-state-greeting" id="empty-greeting">Yo <span id="empty-user-name">Ibra</span> 👋</div>
+            <div class="empty-state-hint" id="empty-hint">Lagi pengen bikin apa hari ini?</div>
           </div>
         </div>
         <div class="messages" id="messages"></div>
@@ -1098,7 +1074,7 @@ function chatDateLabel(t){if(!t)return 'Lainnya';const d=Date.now()-t;if(d<86400
 function selectM(m){S.currentModel=m;localStorage.setItem('sibra-model',m);updateMU()}
 function updateMU(){mb.querySelectorAll('.model-bar-pill').forEach(b=>{const a=b.dataset.model===S.currentModel;b.classList.toggle('active',a)})}
 
-async function checkH(){const dot=$('status-dot'),ds=$('status-dot-sidebar'),lb=$('status-label'),ts=$('status-text-sidebar'),bd=$('server-badge');const set=on=>{S.serverOnline=on;[dot,ds].forEach(e=>{if(e)e.className='dot'+(on?' online':' offline')});if(lb)lb.textContent=on?'Online':'Offline';if(ts)ts.textContent=on?'Online':'Offline';if(bd)bd.className='server-badge'+(on?' online':' offline')};try{const r=await fetch(A+'/health',{signal:AbortSignal.timeout(5000)});const d=await r.json();set(d.status==='ok')}catch{set(false)}}
+async function checkH(){const dot=$('status-dot'),ds=$('status-dot-sidebar'),lb=$('status-label'),ts=$('status-text-sidebar'),bd=$('server-badge');const set=on=>{S.serverOnline=on;if(dot)dot.className='dot'+(on?' online':' offline');if(ds)ds.className='status-dot'+(on?' online':' offline');if(lb)lb.textContent=on?'Online':'Offline';if(ts)ts.textContent=on?'Online':'Offline';if(bd)bd.className='server-badge'+(on?' online':' offline')};try{const r=await fetch(A+'/health',{signal:AbortSignal.timeout(5000)});const d=await r.json();set(d.status==='ok')}catch{set(false)}}
 
 function onInp(){const val=inp.value,len=val.length;inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,180)+'px';const ht=len>0&&len<=10000;sbtn.classList.toggle('has-text',ht);if(!S.isStreaming)sbtn.disabled=!ht;if(len>8000){const t=(len>9999&&len<=10000?'9.9':len>10000?'10.0':(len/1000).toFixed(1).replace('.',',').replace(',0',''))+'rb/10rb';if(cc.textContent!==t){cc.textContent=t;cc.classList.remove('bump');void cc.offsetWidth;cc.classList.add('bump')}cc.style.display='block';cc.className='char-counter visible'+(len>10000?' over':len>9500?' warning':'')+(cc.classList.contains('bump')?' bump':'')}else{cc.style.display='none';cc.className='char-counter'}try{localStorage.setItem('sibra-draft',val)}catch{}}
 function onKey(e){if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();if(S.isStreaming){stopS();return}const v=inp.value.trim();if(v&&v.length<=10000)onSend()}}
@@ -1144,7 +1120,7 @@ function closeSearch(){sb.classList.remove('open');si.value='';S._searchResults=
 function onSearch(){const q=si.value.trim().toLowerCase();closeSearch();if(!q||!S.messages.length)return;sb.classList.add('open');si.focus();const all=[];S.messages.forEach((m,i)=>{if((m.role==='user'||m.role==='ai')&&m.content){const c=m.content.toLowerCase();let idx=0;while((idx=c.indexOf(q,idx))!==-1){all.push({msgIdx:i,offset:idx});idx++}}});if(!all.length){sc.textContent='0 hasil';return}S._searchResults=all;S._searchIdx=-1;S._searchOrig=[];S._searchOrigHTML=[];all.forEach(r=>{const el=document.querySelectorAll('.message')[r.msgIdx];if(el){const h=el.querySelector('.message-bubble')||el.querySelector('.message-ai-text');if(h){if(!S._searchOrig.includes(h)){S._searchOrig.push(h);S._searchOrigHTML.push(h.innerHTML)}const re=new RegExp(si.value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');h.innerHTML=h.innerHTML.replace(re,m=>`<span class="search-highlight">${m}</span>`)}}});searchNav(0)}
 function searchNav(dir){const r=S._searchResults;if(!r||!r.length)return;S._searchIdx=((S._searchIdx+dir)+r.length)%r.length;const hit=r[S._searchIdx];sc.textContent=`${S._searchIdx+1}/${r.length}`;document.querySelectorAll('.message').forEach((el,i)=>{el.classList.toggle('search-active',i===hit.msgIdx)});const el=document.querySelectorAll('.message')[hit.msgIdx];if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
 
-const O_GREETINGS=[()=>'yo 👋',()=>'akhirnya muncul juga.',()=>'siap bikin sesuatu?',()=>'gue SIbra.',()=>'udah siap?'],O_RESPONSES=[n=>`sip, mulai sekarang gue panggil lo ${n} 😄`,n=>`oke ${n}, workspace udah ready.`,n=>`nah, baru kerasa lengkap. gas ${n}!`,n=>`mantap ${n}, saatnya ngobrol.`],E_GREETINGS=[n=>`yo ${n} 👋`,n=>`akhirnya nongol juga, ${n}.`,n=>`mau bikin sesuatu, ${n}?`,n=>`lagi kepikiran apa, ${n}?`,n=>`ada yang bisa gue bantu, ${n}?`],E_HINTS=['tinggal tanya aja.','gue siap bantu kapan aja.','mulai aja dulu.','santai aja, gue di sini.','hari ini mau ngebuild apa?'];
+const O_GREETINGS=[()=>'Yo 👋',()=>'Akhirnya muncul juga.',()=>'Siap bikin sesuatu?',()=>'Gue SIbra.',()=>'Udah siap?'],O_RESPONSES=[n=>`Sip, mulai sekarang gue panggil lo ${n} 😄`,n=>`Oke ${n}, workspace udah ready.`,n=>`Nah, baru kerasa lengkap. Gas ${n}!`,n=>`Mantap ${n}, saatnya ngobrol.`],E_GREETINGS=[n=>`Yo ${n} 👋`,n=>`Akhirnya nongol juga, ${n}.`,n=>`Mau bikin sesuatu, ${n}?`,n=>`Lagi kepikiran apa, ${n}?`,n=>`Ada yang bisa gue bantu, ${n}?`],E_HINTS=['Tinggal tanya aja.','Gue siap bantu kapan aja.','Mulai aja dulu.','Santai aja, gue di sini.','Hari ini mau ngebuild apa?'];
 function showOnboarding(){const o=$('onboarding');o.style.display='flex';void o.offsetWidth;o.classList.add('visible');$('onboard-greeting').textContent=O_GREETINGS[Math.floor(Math.random()*O_GREETINGS.length)]();const inp=$('onboard-name'),btn=$('onboard-btn');inp.addEventListener('input',()=>{const v=inp.value.trim();btn.classList.toggle('active',v.length>0);btn.disabled=v.length===0});inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitOB()}});btn.addEventListener('click',submitOB);setTimeout(()=>inp.focus(),2200)}
 function submitOB(){const inp=$('onboard-name'),name=inp.value.trim();if(!name)return;localStorage.setItem('sibra-user-name',name);localStorage.setItem('sibra-onboarded','true');const res=$('onboard-response');res.textContent=O_RESPONSES[Math.floor(Math.random()*O_RESPONSES.length)](name);res.classList.add('show');updateGreeting(name);setTimeout(()=>{const o=$('onboarding');o.classList.add('closing');setTimeout(()=>{o.style.display='none';o.classList.remove('visible','closing');app.classList.add('visible');init()},600)},1500)}
 function updateGreeting(n){const name=n||localStorage.getItem('sibra-user-name')||'Ibra',un=$('empty-user-name');if(un)un.textContent=name;const eg=$('empty-greeting'),eh=$('empty-hint');if(eg)eg.textContent=E_GREETINGS[Math.floor(Math.random()*E_GREETINGS.length)](name);if(eh)eh.textContent=E_HINTS[Math.floor(Math.random()*E_HINTS.length)]}
