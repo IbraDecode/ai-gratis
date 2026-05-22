@@ -40,7 +40,7 @@
   --font-sans:'Inter','SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
   --font-mono:'JetBrains Mono','SF Mono','Fira Code','Cascadia Code',monospace;
   --sidebar-w-collapsed:76px;
-  --sidebar-w-expanded:250px;
+  --sidebar-w-expanded:304px;
   --topbar-h:52px;
   --radius-sm:8px;
   --radius-md:12px;
@@ -84,9 +84,17 @@ a:hover{text-decoration:underline}
 ::selection{background:rgba(110,168,255,0.25);color:#fff}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* BG AMBIENT — soft radial from bottom */
-.bg-ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-ambient-glow{position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);width:120vw;height:70vh;background:radial-gradient(ellipse 100% 100% at 50% 100%,rgba(110,168,255,0.06) 0%,rgba(126,231,184,0.02) 30%,transparent 70%);pointer-events:none}
+/* AURORA — layered ambient glow */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0;will-change:transform,opacity}
+.aurora-1{width:70vw;height:70vw;top:-25%;right:-15%;background:radial-gradient(circle,var(--aurora-o1,rgba(110,168,255,0.06)),transparent 70%);animation:auroraDrift1 18s ease-in-out infinite}
+.aurora-2{width:50vw;height:50vw;top:5%;right:5%;background:radial-gradient(circle,var(--aurora-o2,rgba(6,182,212,0.04)),transparent 70%);animation:auroraDrift2 22s ease-in-out infinite}
+.aurora-3{width:40vw;height:40vw;top:25%;right:15%;background:radial-gradient(circle,var(--aurora-o3,rgba(126,231,184,0.03)),transparent 70%);animation:auroraDrift3 16s ease-in-out infinite}
+.aurora-4{width:45vw;height:45vw;top:-10%;right:10%;background:radial-gradient(circle,rgba(192,132,252,0.02),transparent 70%);animation:auroraDrift2 20s ease-in-out infinite}
+@keyframes auroraDrift1{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.4;transform:translate(-15px,10px) scale(1.04)}50%{opacity:0.25;transform:translate(10px,-8px) scale(0.96)}75%{opacity:0.5;transform:translate(-5px,15px) scale(1.02)}}
+@keyframes auroraDrift2{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.3;transform:translate(10px,-10px) scale(1.02)}50%{opacity:0.15;transform:translate(-8px,12px) scale(0.97)}75%{opacity:0.4;transform:translate(5px,-5px) scale(1.03)}}
+@keyframes auroraDrift3{0%,100%{opacity:0;transform:translate(0,0) scale(1)}25%{opacity:0.2;transform:translate(-8px,-3px) scale(1.03)}50%{opacity:0.08;transform:translate(12px,6px) scale(0.98)}75%{opacity:0.3;transform:translate(-3px,8px) scale(1.01)}}
+@keyframes auroraStart{to{opacity:1}}
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-primary);opacity:1;transition:opacity 500ms var(--ease-smooth),visibility 500ms var(--ease-smooth)}
@@ -111,6 +119,36 @@ a:hover{text-decoration:underline}
 #splash.hidden .splash-flash{opacity:0.08;transform:scale(1.02);filter:blur(4px);transition:opacity 500ms var(--ease-smooth),transform 800ms var(--ease-smooth),filter 800ms var(--ease-smooth)}
 @media(max-width:640px){.splash-title{font-size:42px;letter-spacing:-0.02em}.splash-loader{width:110px;margin-top:22px}.splash-lottie{opacity:0.15}}
 
+/* ONBOARDING */
+#onboarding{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-primary);opacity:0;transition:opacity 500ms var(--ease-smooth),visibility 500ms var(--ease-smooth)}
+#onboarding.visible{opacity:1}
+#onboarding.closing{opacity:0;transform:scale(1.02);filter:blur(4px);transition:opacity 600ms var(--ease-smooth),transform 700ms var(--ease-smooth),filter 700ms var(--ease-smooth)}
+.onboard-aurora{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.onboard-aurora::before{content:'';position:absolute;top:-30%;right:-20%;width:80vw;height:80vw;background:radial-gradient(circle,rgba(110,168,255,0.06),transparent 60%);filter:blur(100px);animation:onboardAurora 12s ease-in-out infinite}
+.onboard-aurora::after{content:'';position:absolute;bottom:-20%;left:-10%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(126,231,184,0.03),transparent 60%);filter:blur(80px);animation:onboardAurora2 16s ease-in-out infinite}
+@keyframes onboardAurora{0%,100%{transform:translate(0,0);opacity:0.3}50%{transform:translate(-20px,15px);opacity:0.5}}
+@keyframes onboardAurora2{0%,100%{transform:translate(0,0);opacity:0.2}50%{transform:translate(15px,-10px);opacity:0.35}}
+.onboard-center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:0 24px;position:relative;z-index:1;margin-top:-5vh}
+.onboard-robot-wrap{position:relative;width:100px;height:100px;margin-bottom:14px;animation:onboardElIn 800ms var(--ease-smooth) 400ms both}
+.onboard-robot-glow{position:absolute;inset:-15px;border-radius:50%;background:radial-gradient(circle,rgba(110,168,255,0.08),transparent 70%);pointer-events:none;animation:robotGlowPulse 4s ease-in-out infinite}
+.onboard-robot-svg{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 4px 16px rgba(110,168,255,0.04))}
+.onboard-greeting{font-size:38px;font-weight:500;letter-spacing:-0.03em;color:var(--text-primary);animation:onboardElIn 600ms var(--ease-smooth) 1000ms both}
+.onboard-sub{font-size:15.5px;color:var(--text-secondary);font-weight:400;animation:onboardElIn 600ms var(--ease-smooth) 1400ms both}
+.onboard-field{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:8px;animation:onboardElIn 600ms var(--ease-smooth) 2000ms both}
+.onboard-label{font-size:14px;color:var(--text-muted);font-weight:400}
+.onboard-input-row{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:100px;padding:3px;transition:all 400ms var(--ease-out);max-width:300px;width:100%}
+.onboard-input-row:focus-within{border-color:rgba(110,168,255,0.12);box-shadow:0 0 20px rgba(110,168,255,0.03);background:rgba(255,255,255,0.04)}
+.onboard-input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-size:15px;padding:9px 14px;font-family:var(--font-sans);caret-color:var(--accent-blue);min-width:0;width:150px}
+.onboard-input::placeholder{color:var(--text-disabled)}
+.onboard-btn{padding:7px 18px;border-radius:100px;font-size:14px;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);transition:all 300ms var(--ease-out);cursor:default;border:none;font-family:inherit;white-space:nowrap}
+.onboard-btn.active{color:var(--bg-primary);background:var(--text-primary);cursor:pointer}
+.onboard-btn.active:hover{background:rgba(255,255,255,0.9);transform:scale(1.03);box-shadow:0 0 20px rgba(255,255,255,0.05)}
+.onboard-btn.active:active{transform:scale(0.97)}
+.onboard-response{position:fixed;bottom:15%;left:50%;transform:translateX(-50%);font-size:15px;color:var(--text-secondary);opacity:0;transition:opacity 500ms var(--ease-out),transform 500ms var(--ease-out);white-space:nowrap;z-index:2}
+.onboard-response.show{opacity:1;transform:translateX(-50%) translateY(-30px)}
+@keyframes onboardElIn{from{opacity:0;transform:translateY(10px);filter:blur(6px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(max-width:640px){.onboard-robot-wrap{width:80px;height:80px}.onboard-greeting{font-size:30px}.onboard-sub{font-size:14px}}
+
 /* APP */
 #app{display:flex;height:100vh;height:100dvh;opacity:0;transition:opacity 500ms var(--ease-smooth);position:relative;z-index:1}
 #app.visible{opacity:1}
@@ -120,54 +158,60 @@ a:hover{text-decoration:underline}
 #app.visible #input-area{animation:appElIn 500ms var(--ease-out) 400ms both}
 @keyframes appElIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* SIDEBAR */
-#sidebar{position:relative;z-index:100;display:flex;flex-direction:column;height:100vh;height:100dvh;padding:10px 0 10px 10px;flex-shrink:0;transition:width var(--transition-normal);isolation:isolate}
+/* SIDEBAR — floating glass panel */
+#sidebar{position:relative;z-index:100;display:flex;flex-direction:column;height:100vh;height:100dvh;padding:12px;flex-shrink:0;transition:width var(--transition-normal);isolation:isolate}
 #sidebar.collapsed{width:var(--sidebar-w-collapsed)}
 #sidebar.expanded{width:var(--sidebar-w-expanded)}
-.sidebar-inner{display:flex;flex-direction:column;height:100%;width:100%;background:rgba(12,12,16,0.6);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,0.04);border-radius:20px;padding:12px 10px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.12),0 0 0 1px rgba(255,255,255,0.02) inset;transition:border-radius 300ms var(--ease-out),background 300ms var(--ease-out)}
-.sidebar-header{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 14px;margin-bottom:12px;flex-shrink:0}
-.sidebar-logo{font-size:20px;font-weight:600;letter-spacing:-0.03em;color:var(--text-primary);white-space:nowrap;transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out),transform 200ms var(--ease-out);max-width:130px;overflow:hidden;background:linear-gradient(135deg,var(--text-primary),var(--text-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sidebar.collapsed .sidebar-logo{opacity:0;max-width:0;margin:0}
-.sidebar-nav{display:flex;flex-direction:column;gap:1px;flex:1;overflow-y:auto}
-.sidebar-nav>.sidebar-item{transition:all var(--transition-fast),transform 300ms var(--ease-out),opacity 250ms var(--ease-out)}
-#sidebar.expanded .sidebar-nav>.sidebar-item:nth-child(1){transition-delay:30ms}
-#sidebar.expanded .sidebar-nav>.sidebar-item:nth-child(2){transition-delay:60ms}
-#sidebar.expanded .sidebar-nav>.sidebar-item:nth-child(3){transition-delay:90ms}
-#sidebar.collapsed .sidebar-nav>.sidebar-item{transition-delay:0ms}
-#sidebar.collapsed .sidebar-nav>.sidebar-item:nth-child(1){transition-delay:20ms}
-#sidebar.collapsed .sidebar-nav>.sidebar-item:nth-child(2){transition-delay:10ms}
-#sidebar.collapsed .sidebar-nav>.sidebar-item:nth-child(3){transition-delay:0ms}
-.sidebar-item{display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:var(--radius-md);color:var(--text-muted);white-space:nowrap;position:relative;font-size:14px;font-weight:450;min-height:38px;cursor:pointer;user-select:none;transition:all var(--transition-fast);transform:translateZ(0);overflow:hidden}
-.sidebar-item::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,var(--accent-blue),var(--accent-green));opacity:0;transition:opacity 300ms var(--ease-out);z-index:-1}
-.sidebar-item:hover{background:rgba(255,255,255,0.04);color:var(--text-primary);transform:translateX(3px)}
-.sidebar-item:hover::before{opacity:0.03}
-.sidebar-item.active{background:rgba(110,168,255,0.06);color:var(--text-primary);box-shadow:inset 2px 0 0 var(--accent-blue);transform:translateX(2px)}
-.sidebar-item.active::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:3px;height:16px;border-radius:0 3px 3px 0;background:var(--accent-gradient);opacity:0;animation:indicatorIn 300ms var(--ease-out) 60ms forwards,activeGlow 3s ease-in-out 1s infinite}
-@keyframes indicatorIn{from{opacity:0;height:4px}to{opacity:1;height:16px}}
-@keyframes activeGlow{0%,100%{box-shadow:0 0 4px rgba(110,168,255,0.2)}50%{box-shadow:0 0 10px rgba(110,168,255,0.4)}}
-.sidebar-item svg{width:19px;height:19px;flex-shrink:0;transition:transform 300ms var(--ease-out)}
-.sidebar-item:first-child svg{animation:newChatPulse 4s ease-in-out 3s infinite}
-@keyframes newChatPulse{0%,100%{opacity:0.6}50%{opacity:1;filter:drop-shadow(0 0 4px rgba(110,168,255,0.2))}}
-.sidebar-item:hover svg{transform:scale(1.1) rotate(-3deg)}
-.sidebar-item-text{overflow:hidden;text-overflow:ellipsis;transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out),margin 250ms var(--ease-out);max-width:200px;white-space:nowrap}
-.sidebar.collapsed .sidebar-item-text{opacity:0;max-width:0;margin:0;overflow:hidden;display:inline-block;pointer-events:none}
-.sidebar.collapsed .sidebar-item{justify-content:center;padding:9px}
-.sidebar-footer{margin-top:auto;padding-top:8px;flex-shrink:0}
-.server-status{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--radius-md);font-size:12px;color:var(--text-muted)}
-.server-status-text{overflow:hidden;transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);max-width:100px;white-space:nowrap}
-.sidebar.collapsed .server-status-text{opacity:0;max-width:0;overflow:hidden;display:inline-block;pointer-events:none}
-.sidebar.collapsed .server-status{justify-content:center;padding:8px}
-.status-dot{width:6px;height:6px;border-radius:var(--radius-full);flex-shrink:0;transition:all 350ms var(--ease-out)}
-.status-dot.online{background:var(--accent-green);box-shadow:0 0 8px rgba(126,231,184,0.25);animation:breathing 3s ease-in-out infinite}
-@keyframes breathing{0%,100%{box-shadow:0 0 6px rgba(126,231,184,0.2)}50%{box-shadow:0 0 14px rgba(126,231,184,0.35)}}
-.status-dot.offline{background:var(--text-disabled)}
-.status-dot.checking{background:var(--text-muted);animation:pulse 1.5s var(--ease-in-out) infinite}
-@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+.sidebar-inner{display:flex;flex-direction:column;height:100%;width:100%;background:radial-gradient(ellipse 140% 100% at 0% 0%,rgba(110,168,255,0.06) 0%,transparent 60%),radial-gradient(ellipse 140% 100% at 100% 100%,rgba(126,231,184,0.06) 0%,transparent 60%),rgba(20,20,22,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-2xl);padding:14px 12px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,0.28),0 0 0 1px rgba(255,255,255,0.02) inset;transition:border-radius 300ms var(--ease-out)}
+.sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 4px 14px;margin-bottom:6px;flex-shrink:0;min-height:36px}
+.sidebar-logo-wrap{display:flex;align-items:center;gap:10px;overflow:hidden}
+.sidebar-logo-icon{width:20px;height:20px;flex-shrink:0;transition:transform 300ms var(--ease-out)}
+.sidebar:hover .sidebar-logo-icon{transform:rotate(-3deg) scale(1.05)}
+.sidebar-logo-text{display:flex;flex-direction:column;gap:0;overflow:hidden;transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);max-width:200px}
+.sidebar.collapsed .sidebar-logo-text{opacity:0;max-width:0;overflow:hidden;pointer-events:none}
+.sidebar-logo{font-size:18px;font-weight:600;letter-spacing:-0.03em;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.sidebar-logo-sub{font-size:10px;color:var(--text-disabled);letter-spacing:0.02em;font-weight:450}
+.sidebar-close-btn{width:28px;height:28px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--text-disabled);transition:all var(--transition-fast);flex-shrink:0}
+.sidebar-close-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-secondary)}
+.sidebar.collapsed .sidebar-header{padding-left:4px;justify-content:center}
+.sidebar.collapsed .sidebar-close-btn{display:none}
 
-/* SIDEBAR HISTORY */
-.sidebar-history .history-sep{padding:8px 14px 4px;font-size:11px;font-weight:500;color:var(--text-disabled);letter-spacing:0.03em;text-transform:uppercase;animation:sepIn 300ms var(--ease-out) both}
+.sidebar-new-chat{display:flex;align-items:center;gap:10px;padding:0 14px;min-height:62px;border-radius:24px;background:rgba(255,255,255,0.06);margin-bottom:12px;flex-shrink:0;transition:all var(--transition-fast);cursor:pointer;text-align:left;position:relative;overflow:hidden;border:none;color:inherit;font-family:inherit;font-size:inherit;width:100%}
+.sidebar-new-chat:hover{background:rgba(255,255,255,0.1);transform:translateY(-1px)}
+.sidebar-new-chat:active{transform:translateY(0);transition-duration:50ms}
+.sidebar-new-chat svg:first-child{width:22px;height:22px;flex-shrink:0;color:var(--text-secondary);transition:transform 350ms var(--ease-out)}
+.sidebar-new-chat:hover svg:first-child{transform:rotate(90deg)}
+.sidebar-new-chat span{font-size:15px;font-weight:500;color:var(--text-primary);transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);overflow:hidden;white-space:nowrap;max-width:140px}
+.new-chat-arrow{margin-left:auto;color:var(--text-muted);transition:transform 300ms var(--ease-out),opacity 200ms var(--ease-out)}
+.sidebar-new-chat:hover .new-chat-arrow{transform:translateX(3px)}
+.sidebar.collapsed .sidebar-new-chat{justify-content:center;padding:0;min-height:44px;width:44px;border-radius:var(--radius-2xl);margin:0 auto 12px}
+.sidebar.collapsed .sidebar-new-chat span,.sidebar.collapsed .new-chat-arrow{opacity:0;max-width:0;overflow:hidden;pointer-events:none}
+.sidebar.collapsed .sidebar-new-chat svg:first-child{width:20px;height:20px}
+
+.sidebar-menu{display:flex;flex-direction:column;gap:1px;margin-bottom:4px;flex-shrink:0}
+.sidebar-menu-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--radius-md);color:var(--text-muted);font-size:14px;font-weight:450;cursor:pointer;user-select:none;transition:all var(--transition-fast);position:relative;overflow:hidden;text-align:left;white-space:nowrap;border:none;background:none;font-family:inherit;width:100%}
+.sidebar-menu-item:hover{background:rgba(255,255,255,0.04);color:var(--text-primary);transform:translateX(3px)}
+.sidebar-menu-item.active{color:var(--text-primary);background:rgba(255,255,255,0.04);box-shadow:inset 3px 0 0 var(--accent-gradient)}
+.sidebar-menu-item svg{width:19px;height:19px;flex-shrink:0;transition:transform 300ms var(--ease-out)}
+.sidebar-menu-item:hover svg{transform:scale(1.1) rotate(-3deg)}
+.sidebar-menu-item span{overflow:hidden;text-overflow:ellipsis;transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);max-width:140px;white-space:nowrap}
+.sidebar.collapsed .sidebar-menu-item{justify-content:center;padding:10px 0}
+.sidebar.collapsed .sidebar-menu-item span{opacity:0;max-width:0;overflow:hidden;pointer-events:none}
+
+.sidebar-section-title{font-size:10.5px;font-weight:550;color:var(--text-disabled);letter-spacing:0.06em;text-transform:uppercase;padding:10px 14px 6px;transition:opacity 200ms var(--ease-out),max-height 250ms var(--ease-out)}
+.sidebar-section-spacer{margin-top:4px}
+.sidebar.collapsed .sidebar-section-title{opacity:0;max-height:0;padding:0 14px;overflow:hidden;pointer-events:none}
+
+.sidebar-notebook{padding:0 14px 8px;flex-shrink:0}
+.notebook-empty{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-md);border:1px dashed rgba(255,255,255,0.06);color:var(--text-disabled);font-size:12.5px;cursor:pointer;transition:all var(--transition-fast)}
+.notebook-empty:hover{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.1);color:var(--text-muted)}
+.notebook-empty svg{width:16px;height:16px;flex-shrink:0}
+.sidebar.collapsed .sidebar-notebook{display:none}
+
+.sidebar-history{flex:1;overflow-y:auto;margin:0 -12px;padding:0 12px;min-height:0}
+.sidebar.collapsed .sidebar-history{opacity:0;overflow:hidden;pointer-events:none}
+.sidebar-history .history-sep{padding:6px 14px 4px;font-size:11px;font-weight:500;color:var(--text-disabled);letter-spacing:0.03em;text-transform:uppercase;animation:sepIn 300ms var(--ease-out) both}
 @keyframes sepIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-.sidebar.collapsed .sidebar-history{opacity:0;max-height:0;overflow:hidden;padding-top:0;margin-top:0;pointer-events:none}
 .history-item{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:var(--radius-md);color:var(--text-muted);font-size:13px;cursor:pointer;transition:all var(--transition-fast);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-height:34px;animation:histIn 350ms cubic-bezier(0.34,1.56,0.64,1) both}
 @keyframes histIn{from{opacity:0;transform:translateX(-8px) scale(0.97)}to{opacity:1;transform:translateX(0) scale(1)}}
 .history-item:hover{background:rgba(255,255,255,0.04);color:var(--text-secondary);transform:translateX(2px)}
@@ -177,13 +221,31 @@ a:hover{text-decoration:underline}
 .history-item .delete-btn{opacity:0;transform:translateX(6px) scale(0.85);transition:all 200ms var(--ease-out);padding:2px 4px;border-radius:4px;flex-shrink:0;font-size:13px;color:var(--text-disabled)}
 .history-item:hover .delete-btn{opacity:1;transform:translateX(0) scale(1)}
 .history-item .delete-btn:hover{color:var(--danger);background:rgba(255,80,80,0.08)}
+.sidebar.collapsed .sidebar-history{max-height:0}
 
-/* SIDEBAR TOGGLE */
+.sidebar-footer{flex-shrink:0;margin-top:auto;border-top:1px solid rgba(255,255,255,0.06);padding:8px 2px 2px;display:flex;flex-direction:column;gap:4px;transition:opacity 200ms var(--ease-out),max-height 250ms var(--ease-out)}
+.sidebar.collapsed .sidebar-footer{opacity:0;overflow:hidden;pointer-events:none}
+
+.sidebar-profile{display:flex;align-items:center;gap:10px;padding:4px 12px;border-radius:var(--radius-md);transition:all var(--transition-fast);cursor:pointer}
+.sidebar-profile:hover{background:rgba(255,255,255,0.03)}
+.profile-avatar{width:34px;height:34px;border-radius:var(--radius-full);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;color:var(--text-muted);flex-shrink:0;overflow:hidden;transition:transform 300ms var(--ease-out)}
+.sidebar-profile:hover .profile-avatar{transform:scale(1.05)}
+.profile-info{display:flex;flex-direction:column;gap:1px;overflow:hidden;flex:1}
+.profile-name{font-size:13.5px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.profile-plan{font-size:10.5px;color:var(--text-disabled);font-weight:450}
+.profile-settings-btn{width:30px;height:30px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--text-disabled);flex-shrink:0;transition:all var(--transition-fast)}
+.profile-settings-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-secondary)}
+
+.sidebar-server{display:flex;align-items:center;gap:6px;padding:6px 12px 2px;font-size:11px;color:var(--text-disabled)}
+.sidebar-server .status-dot{width:5px;height:5px}
+.sidebar-server .server-status-text{color:var(--text-disabled);transition:opacity 200ms var(--ease-out),max-width 250ms var(--ease-out);max-width:80px;overflow:hidden;white-space:nowrap}
+.sidebar.collapsed .sidebar-server .server-status-text{opacity:0;max-width:0;overflow:hidden}
+
 .sidebar-toggle{position:absolute;top:50%;right:-14px;transform:translateY(-50%);z-index:10;width:28px;height:28px;border-radius:var(--radius-full);background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all var(--transition-fast),transform 400ms cubic-bezier(0.34,1.56,0.64,1);box-shadow:var(--shadow-sm)}
 .sidebar-toggle:hover{background:var(--surface-hover);color:var(--text-secondary);border-color:var(--accent-blue);box-shadow:0 0 12px rgba(110,168,255,0.1)}
 .sidebar-toggle svg{width:13px;height:13px;transition:transform var(--transition-fast)}
 .sidebar.collapsed .sidebar-toggle svg{transform:rotate(180deg)}
-@media(max-width:900px){#sidebar{display:none}}
+@media(max-width:900px){.sidebar-toggle{display:none}#sidebar{display:none}}
 
 /* MAIN */
 #main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;height:100vh;height:100dvh;background:transparent}
@@ -288,13 +350,23 @@ body.kbd-open #main{height:100vh}
 #chat-area:hover::-webkit-scrollbar-thumb,#chat-area.scrolling::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1)}
 #chat-area::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.18)}
 
-/* EMPTY STATE — clean greeting */
-.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px 80px;position:relative}
+/* EMPTY STATE — AI companion greeting */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:17vh 20px 80px;position:relative}
 .empty-state.animate{animation:emptyIn 700ms var(--ease-smooth) forwards}
 @keyframes emptyIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.empty-state-greeting{font-size:46px;font-weight:500;letter-spacing:-0.03em;color:var(--text-primary);margin-bottom:8px;line-height:1.2}
-.empty-state-hint{font-size:16px;color:var(--text-muted);font-weight:400;letter-spacing:0em}
-@media(max-width:640px){.empty-state-greeting{font-size:32px}.empty-state-hint{font-size:14px}}
+.empty-text{display:flex;flex-direction:column;align-items:center;gap:6px}
+.empty-state-greeting{font-size:44px;font-weight:500;letter-spacing:-0.03em;color:var(--text-primary);line-height:1.2}
+.empty-state-hint{font-size:15.5px;color:var(--text-muted);font-weight:400}
+@media(max-width:640px){.empty-state{padding:20vh 16px 60px}.empty-state-greeting{font-size:32px}.empty-state-hint{font-size:14px}}
+
+/* ROBOT AI COMPANION */
+.robot-container{position:relative;width:120px;height:120px;margin-bottom:24px;animation:robotAppear 1000ms var(--ease-smooth) 200ms both}
+@keyframes robotAppear{from{opacity:0;transform:scale(0.95);filter:blur(8px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+.robot-glow-bg{position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(110,168,255,0.06),transparent 70%);pointer-events:none;animation:robotGlowPulse 4s ease-in-out infinite}
+@keyframes robotGlowPulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:0.7;transform:scale(1.08)}}
+.robot-svg{width:100%;height:100%;position:relative;z-index:1;animation:robotFloat 6s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(110,168,255,0.06))}
+@keyframes robotFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-4px) rotate(0.4deg)}50%{transform:translateY(-2px) rotate(-0.3deg)}75%{transform:translateY(-5px) rotate(0.3deg)}}
+@media(max-width:640px){.robot-container{width:96px;height:96px;margin-bottom:18px}}
 
 /* MESSAGES */
 .messages{flex:1;padding:16px 0 2px;display:flex;flex-direction:column;gap:2px}
@@ -430,23 +502,21 @@ body.kbd-open #main{height:100vh}
 @media(max-width:640px){#input-area{padding:0 12px 12px}}
 .input-container{max-width:840px;margin:0 auto;position:relative;display:flex;flex-direction:column;gap:8px}
 
-/* MODEL BAR — minimal pills */
-.model-bar{display:flex;align-items:center;gap:4px;padding:0 4px;transition:opacity 300ms var(--ease-out),transform 300ms var(--ease-out),margin 300ms var(--ease-out);transform-origin:top center}
+/* MODEL BAR — floating segmented control */
+.model-bar{display:flex;align-items:center;gap:3px;padding:3px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:100px;width:fit-content;margin:0 auto;transition:opacity 300ms var(--ease-out),transform 300ms var(--ease-out),margin 300ms var(--ease-out);transform-origin:top center}
 .model-bar.hidden{opacity:0;transform:translateY(-8px) scaleY(0.85);margin-bottom:-32px}
-.model-bar-pill{padding:3px 12px 3px 8px;border-radius:16px;font-size:11.5px;font-weight:480;color:var(--text-muted);background:rgba(255,255,255,0.02);border:1px solid var(--border);transition:all 350ms var(--ease-out);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none}
-.model-bar-pill:nth-child(2){transition-delay:30ms}
-.model-bar-pill:nth-child(3){transition-delay:60ms}
-.model-bar.hidden .model-bar-pill{opacity:0;transform:translateY(-6px) scale(0.85)}
-.model-bar-pill:hover{background:rgba(255,255,255,0.05);color:var(--text-secondary);border-color:rgba(255,255,255,0.1)}
+.model-bar-pill{padding:4px 14px 4px 10px;border-radius:100px;font-size:12px;font-weight:480;color:var(--text-disabled);transition:all 350ms var(--ease-out);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;border:none;font-family:inherit;background:transparent}
+.model-bar-pill:hover{color:var(--text-muted)}
+.model-bar-pill.active{color:#fff;background:var(--accent-gradient);box-shadow:0 0 16px rgba(110,168,255,0.06)}
 .model-bar-pill:active{transform:scale(0.96);transition-duration:50ms}
-.model-bar-pill.active{color:#fff;background:var(--accent-gradient);border-color:transparent;box-shadow:0 0 20px rgba(110,168,255,0.1)}
-.model-icon{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0;transition:transform 300ms var(--ease-out)}
-.model-bar-pill:hover .model-icon{transform:scale(1.1)}
-.model-bar-pill.active .model-icon{filter:brightness(1.2)}
+.model-icon{width:14px;height:14px;border-radius:50%;object-fit:cover;flex-shrink:0}
 
 /* INPUT WRAPPER — large floating pill */
 .input-wrapper{position:relative;display:flex;align-items:center;background:rgba(18,18,22,0.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:40px;min-height:72px;padding:4px 4px 4px 24px;transition:background 400ms var(--ease-out),box-shadow 400ms var(--ease-out),transform 250ms var(--ease-out);box-shadow:0 4px 32px rgba(0,0,0,0.2),0 1px 0 rgba(255,255,255,0.03) inset}
 .input-wrapper:focus-within{background:rgba(20,20,26,0.9);box-shadow:0 0 0 1px rgba(110,168,255,0.04),0 8px 48px rgba(0,0,0,0.25);transform:translateY(-1px)}
+.input-wrapper::before{content:'';position:absolute;inset:-1px;border-radius:41px;background:linear-gradient(135deg,rgba(110,168,255,0.02),rgba(126,231,184,0.01));z-index:-1;opacity:0;transition:opacity 600ms var(--ease-out)}
+.input-wrapper:focus-within::before{opacity:1;animation:inputGlowShift 8s ease-in-out infinite}
+@keyframes inputGlowShift{0%,100%{background:linear-gradient(135deg,rgba(110,168,255,0.04),rgba(126,231,184,0.02))}33%{background:linear-gradient(180deg,rgba(6,182,212,0.03),rgba(110,168,255,0.02))}66%{background:linear-gradient(225deg,rgba(110,168,255,0.04),rgba(126,231,184,0.02))}}
 .input-inner{display:flex;align-items:center;flex:1;width:100%;gap:8px}
 #chat-input{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-size:17px;line-height:1.5;padding:10px 0;min-height:28px;max-height:160px;resize:none;width:100%;font-family:var(--font-sans);caret-color:var(--accent-blue)}
 #chat-input::placeholder{color:var(--text-disabled);transition:color 350ms var(--ease-out)}
@@ -576,13 +646,17 @@ body.kbd-open #main{height:100vh}
    .splash-lottie{opacity:0.15;animation:none}
    .splash-lottie dotlottie-wc{display:none}
   #splash.hidden{opacity:0;visibility:hidden;transform:none;filter:none}
-   .bg-ambient,.bg-ambient-glow{display:none}
+    .aurora,.aurora-orb{display:none}
   .message-enter{animation:none;opacity:1}
   .scroll-bottom-btn.visible{animation:none}
    .input-wrapper::before{display:none}
    .input-wrapper.streaming{animation:none}
    .input-wrapper:not(:focus-within):not(:hover):not(.streaming)::before{animation:none}
-   .empty-state.animate{animation:none;opacity:1}
+    .empty-state.animate{animation:none;opacity:1}
+    .robot-container{animation:none;opacity:1;filter:none}
+    .robot-svg{animation:none}
+    .robot-glow-bg{animation:none;opacity:0.3}
+    .input-wrapper:focus-within::before{animation:none;opacity:0}
    .sidebar-item.active::before,.history-item,.message-ai-text pre,.model-bar-pill,.streaming-caret{animation:none}
    .message-ai-text.stream-flash{animation:none}
    .model-bar-pill.active{animation:none}
@@ -598,11 +672,18 @@ body.kbd-open #main{height:100vh}
    #topbar.scrolled{background:rgba(10,10,13,0.4);backdrop-filter:none}
    .sidebar-item::before{display:none}
    .ripple-el{display:none}
-   .empty-state-greeting{animation:none;opacity:1}
+    .empty-state-greeting{animation:none;opacity:1}
+    #onboarding.closing{opacity:0;transform:none;filter:none;transition:none}
+    .onboard-greeting,.onboard-sub,.onboard-field,.onboard-robot-wrap{animation:none;opacity:1;filter:none}
+    .onboard-aurora::before,.onboard-aurora::after{animation:none;opacity:0.2}
+    .onboard-robot-svg{animation:none}
+    .onboard-robot-glow{animation:none;opacity:0.3}
     .msg-action.reaction-up.active svg,.msg-action.reaction-down.active svg{animation:none}
    #settings-overlay.open,#shortcuts-overlay.open,#confirm-overlay.open{animation:none;opacity:1}
    .model-bar-pill.active{animation:none}
-   .sidebar-item:hover svg{transform:none}
+    .sidebar-item:hover svg{transform:none}
+    .sidebar-close-btn:hover{background:none}
+    .sidebar-new-chat:hover{transform:none;background:rgba(255,255,255,0.06)}
    .server-badge .dot.online{animation:none}
    .send-btn.has-text:hover::before{display:none}
    .send-btn:not(:hover):not(:active):not(.streaming).has-text::before{display:none}
@@ -618,8 +699,12 @@ body.kbd-open #main{height:100vh}
 </head>
 <body>
 
-<!-- BG AURORA -->
-<div class="bg-ambient" aria-hidden="true"><div class="bg-ambient-glow"></div></div>
+<div class="aurora" aria-hidden="true">
+  <div class="aurora-orb aurora-1"></div>
+  <div class="aurora-orb aurora-2"></div>
+  <div class="aurora-orb aurora-3"></div>
+  <div class="aurora-orb aurora-4"></div>
+</div>
 
 <div id="splash" role="status" aria-label="Memuat">
   <div class="splash-lottie" aria-hidden="true"><dotlottie-wc src="https://lottie.host/107d05cc-f3b4-401f-9b3e-e4183a8ca88b/kreShd5ufv.lottie" autoplay loop></dotlottie-wc></div>
@@ -629,28 +714,111 @@ body.kbd-open #main{height:100vh}
   <div class="splash-flash" aria-hidden="true"></div>
 </div>
 
+<div id="onboarding" aria-label="Selamat datang">
+  <div class="onboard-aurora"></div>
+  <div class="onboard-center">
+    <div class="onboard-robot-wrap">
+      <div class="onboard-robot-glow"></div>
+      <svg class="onboard-robot-svg" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="oHead" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="rgba(110,168,255,0.08)"/><stop offset="100%" stop-color="rgba(126,231,184,0.04)"/></linearGradient>
+          <radialGradient id="oGlow"><stop offset="0%" stop-color="rgba(110,168,255,0.12)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+        </defs>
+        <rect x="15" y="22" width="90" height="76" rx="34" fill="url(#oHead)" stroke="rgba(110,168,255,0.06)" stroke-width="1"/>
+        <circle cx="42" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
+        <circle cx="78" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
+        <circle cx="42" cy="52" r="9" fill="url(#oGlow)"/>
+        <circle cx="78" cy="52" r="9" fill="url(#oGlow)"/>
+        <path d="M38 70 Q60 82 82 70" stroke="rgba(110,168,255,0.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <line x1="60" y1="22" x2="60" y2="8" stroke="rgba(110,168,255,0.04)" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="60" cy="8" r="3" fill="rgba(110,168,255,0.08)"/>
+      </svg>
+    </div>
+    <div class="onboard-greeting" id="onboard-greeting">yo 👋</div>
+    <div class="onboard-sub" id="onboard-sub">akhirnya nongol juga.</div>
+    <div class="onboard-field" id="onboard-field">
+      <div class="onboard-label">gue manggil lo siapa?</div>
+      <div class="onboard-input-row">
+        <input type="text" class="onboard-input" id="onboard-name" placeholder="ketik nama lo..." maxlength="30" autocomplete="off">
+        <button class="onboard-btn" id="onboard-btn" disabled>gas</button>
+      </div>
+    </div>
+    <div class="onboard-response" id="onboard-response"></div>
+  </div>
+</div>
+
 <div id="app">
+  <div id="sidebar-overlay"></div>
   <aside id="sidebar" class="expanded" role="navigation" aria-label="Sidebar utama">
     <div class="sidebar-inner">
-      <div class="sidebar-header"><span class="sidebar-logo">SIbra</span></div>
-      <div class="sidebar-nav">
-        <button class="sidebar-item" id="sidebar-new-chat" aria-label="Percakapan baru">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span class="sidebar-item-text">Percakapan Baru</span>
-        </button>
-        <div style="height:1px;background:var(--border);margin:6px 12px"></div>
-        <button class="sidebar-item active" data-view="chat" aria-label="Chat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span class="sidebar-item-text">Chat</span>
-        </button>
-        <button class="sidebar-item" data-view="history" aria-label="Riwayat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span class="sidebar-item-text">Riwayat</span>
+      <div class="sidebar-header">
+        <div class="sidebar-logo-wrap">
+          <svg class="sidebar-logo-icon" viewBox="0 0 32 32" width="20" height="20" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="url(#sg)" stroke-width="1.5" fill="rgba(110,168,255,0.06)"/>
+            <path d="M12 18l4-8 4 8" stroke="url(#sg)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 16h4" stroke="url(#sg)" stroke-width="1.8" stroke-linecap="round"/>
+            <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6EA8FF"/><stop offset="1" stop-color="#7EE7B8"/></linearGradient></defs>
+          </svg>
+          <div class="sidebar-logo-text">
+            <span class="sidebar-logo">SIbra</span>
+            <span class="sidebar-logo-sub">AI Workspace</span>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close" aria-label="Tutup sidebar">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+
+      <button class="sidebar-new-chat" id="sidebar-new-chat" aria-label="Percakapan baru">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Percakapan Baru</span>
+        <svg class="new-chat-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <nav class="sidebar-menu">
+        <button class="sidebar-menu-item active" data-view="chat" aria-label="Chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Chat</span>
+        </button>
+        <button class="sidebar-menu-item" data-view="history" aria-label="Riwayat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Riwayat</span>
+        </button>
+        <button class="sidebar-menu-item" data-view="notebook" aria-label="Notebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span>Notebook</span>
+        </button>
+        <button class="sidebar-menu-item" data-view="settings" aria-label="Pengaturan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Pengaturan</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-section-title">NOTEBOOK</div>
+      <div class="sidebar-notebook">
+        <div class="notebook-empty">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span>Buat notebook pertama</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section-title sidebar-section-spacer">TERBARU</div>
       <div class="sidebar-history" id="sidebar-history-list"></div>
+
       <div class="sidebar-footer">
-        <div class="server-status" id="server-status-sidebar">
+        <div class="sidebar-profile">
+          <div class="profile-avatar" id="profile-avatar">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="profile-info">
+            <span class="profile-name" id="profile-name">User</span>
+            <span class="profile-plan">Free Plan</span>
+          </div>
+          <button class="profile-settings-btn" id="sidebar-settings-btn" aria-label="Pengaturan">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+        <div class="sidebar-server">
           <span class="status-dot checking" id="status-dot-sidebar"></span>
           <span class="server-status-text" id="status-text-sidebar">Mengecek...</span>
         </div>
@@ -699,8 +867,27 @@ body.kbd-open #main{height:100vh}
     <div id="chat-area">
       <div class="chat-container" id="chat-container">
         <div class="empty-state animate" id="empty-state">
-          <div class="empty-state-greeting">Yuk kita mulai, Ibra</div>
-          <div class="empty-state-hint">Tanya apa saja — SIbra siap bantu.</div>
+          <div class="robot-container" id="robot-container">
+            <div class="robot-glow-bg"></div>
+            <svg class="robot-svg" viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="rHead" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="rgba(110,168,255,0.08)"/><stop offset="100%" stop-color="rgba(126,231,184,0.04)"/></linearGradient>
+                <radialGradient id="rGlow"><stop offset="0%" stop-color="rgba(110,168,255,0.12)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+              </defs>
+              <rect x="15" y="22" width="90" height="76" rx="34" fill="url(#rHead)" stroke="rgba(110,168,255,0.06)" stroke-width="1"/>
+              <circle cx="42" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
+              <circle cx="78" cy="52" r="4.5" fill="rgba(110,168,255,0.3)"/>
+              <circle cx="42" cy="52" r="9" fill="url(#rGlow)"/>
+              <circle cx="78" cy="52" r="9" fill="url(#rGlow)"/>
+              <path d="M38 70 Q60 82 82 70" stroke="rgba(110,168,255,0.1)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <line x1="60" y1="22" x2="60" y2="8" stroke="rgba(110,168,255,0.04)" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="60" cy="8" r="3" fill="rgba(110,168,255,0.08)"/>
+            </svg>
+          </div>
+          <div class="empty-text">
+            <div class="empty-state-greeting" id="empty-greeting">yo <span id="empty-user-name">Ibra</span> 👋</div>
+            <div class="empty-state-hint" id="empty-hint">lagi pengen bikin apa hari ini?</div>
+          </div>
         </div>
         <div class="messages" id="messages"></div>
       </div>
@@ -838,7 +1025,11 @@ marked.setOptions({breaks:false,gfm:true,highlight:function(c,l){if(l&&hljs.getL
 
 const S={messages:[],session:null,currentModel:localStorage.getItem('sibra-model')||'gemini',isStreaming:false,abortController:null,currentAiMessageId:null,currentChatId:null,serverOnline:false,sidebarExpanded:true,chats:[],isScrolledUp:false,confirmCallback:null,lastScrollTop:0},A='https://ai-gratis-by-ibra-decode.vercel.app',$=id=>document.getElementById(id),splash=$('splash'),app=$('app'),sidebar=$('sidebar'),ca=$('chat-area'),me=$('messages'),es=$('empty-state'),inp=$('chat-input'),sbtn=$('send-btn'),sic=$('send-icon'),stic=$('stop-icon'),iw=$('input-wrapper'),cc=$('char-counter'),sbb=$('scroll-bottom-btn'),co=$('confirm-overlay'),hl=$('sidebar-history-list'),dhl=$('drawer-history-list'),md=$('mobile-drawer'),tb=$('topbar'),mb=$('model-bar'),sb=$('search-bar'),si=$('search-input'),sc=$('search-count'),so=$('settings-overlay'),sho=$('shortcuts-overlay');
 
-setTimeout(()=>{splash.classList.add('hidden');app.classList.add('visible');init()},2400);
+setTimeout(()=>{
+  splash.classList.add('hidden');
+  const n=localStorage.getItem('sibra-onboarded');
+  if(!n){showOnboarding()}else{app.classList.add('visible');init()}
+},2400);
 
 function init(){
   const fs=localStorage.getItem('sibra-font-size')||'medium';document.documentElement.dataset.fontSize=fs;document.querySelectorAll('#font-size-options .settings-size').forEach(b=>b.classList.toggle('active',b.dataset.size===fs));
@@ -849,8 +1040,9 @@ function init(){
   inp.addEventListener('input',onInp);inp.addEventListener('keydown',onKey);sbtn.addEventListener('click',onSend);
   mb.querySelectorAll('.model-bar-pill').forEach(b=>{b.addEventListener('click',()=>{selectM(b.dataset.model)})});
   $('sidebar-toggle').addEventListener('click',()=>{S.sidebarExpanded=!S.sidebarExpanded;sidebar.className=S.sidebarExpanded?'expanded':'collapsed'});
+  $('sidebar-close').addEventListener('click',()=>{S.sidebarExpanded=false;sidebar.className='collapsed'});
   $('sidebar-new-chat').addEventListener('click',()=>{newChat();closeMD()});
-  document.querySelectorAll('.sidebar-item[data-view]').forEach(item=>{item.addEventListener('click',function(e){document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));item.classList.add('active');addRipple(this,e)})});
+  document.querySelectorAll('.sidebar-menu-item[data-view]').forEach(item=>{item.addEventListener('click',function(e){document.querySelectorAll('.sidebar-menu-item').forEach(i=>i.classList.remove('active'));item.classList.add('active');addRipple(this,e)})});
   $('mobile-menu-btn').addEventListener('click',()=>md.classList.add('open'));$('drawer-close').addEventListener('click',closeMD);
   md.addEventListener('click',e=>{if(e.target===md)closeMD()});
   $('drawer-new-chat').addEventListener('click',()=>{newChat();closeMD()});
@@ -876,7 +1068,7 @@ function init(){
   $('confirm-cancel').addEventListener('click',hideC);$('confirm-ok').addEventListener('click',()=>{hideC();if(S.confirmCallback)S.confirmCallback()});
   co.addEventListener('click',e=>{if(e.target===co)hideC()});
   ca.addEventListener('scroll',onScr);sbb.addEventListener('click',scrollB);
-  checkES();onInp();startPlaceholderCycle();
+  checkES();onInp();startPlaceholderCycle();updateGreeting();
   try{const d=localStorage.getItem('sibra-draft');if(d&&!inp.value){inp.value=d;onInp()}}catch{}
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();inp.focus()}});
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='f'){e.preventDefault();openSearch()}});
@@ -886,7 +1078,6 @@ function init(){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&md.classList.contains('open')){closeMD();return}if(e.key==='Escape'&&S.isStreaming)stopS();if(e.key==='Tab'&&md.classList.contains('open')){e.preventDefault();const f=md.querySelectorAll('button:not([disabled]),a,[tabindex]:not([tabindex="-1"])');const fi=Array.from(f);const ci=fi.indexOf(document.activeElement);let ni=ci+(e.shiftKey?-1:1);if(ni<0)ni=fi.length-1;if(ni>=fi.length)ni=0;fi[ni]?.focus()}});
   window.addEventListener('offline',()=>{$('net-banner').classList.add('show')});window.addEventListener('online',()=>{$('net-banner').classList.remove('show')});
   if(navigator.onLine===false)$('net-banner').classList.add('show');
-  document.querySelectorAll('.sidebar-item').forEach(el=>{const t=el.querySelector('.sidebar-item-text');if(t)el.title=t.textContent})
 }
 
 const PLACEHOLDERS=['Tanya SIbra apa saja...','Ketik pesan...','Ada yang bisa dibantu?','Butuh bantuan?','Coba tanya sesuatu...'];let phIdx=0,phInterval;
@@ -953,7 +1144,12 @@ function closeSearch(){sb.classList.remove('open');si.value='';S._searchResults=
 function onSearch(){const q=si.value.trim().toLowerCase();closeSearch();if(!q||!S.messages.length)return;sb.classList.add('open');si.focus();const all=[];S.messages.forEach((m,i)=>{if((m.role==='user'||m.role==='ai')&&m.content){const c=m.content.toLowerCase();let idx=0;while((idx=c.indexOf(q,idx))!==-1){all.push({msgIdx:i,offset:idx});idx++}}});if(!all.length){sc.textContent='0 hasil';return}S._searchResults=all;S._searchIdx=-1;S._searchOrig=[];S._searchOrigHTML=[];all.forEach(r=>{const el=document.querySelectorAll('.message')[r.msgIdx];if(el){const h=el.querySelector('.message-bubble')||el.querySelector('.message-ai-text');if(h){if(!S._searchOrig.includes(h)){S._searchOrig.push(h);S._searchOrigHTML.push(h.innerHTML)}const re=new RegExp(si.value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');h.innerHTML=h.innerHTML.replace(re,m=>`<span class="search-highlight">${m}</span>`)}}});searchNav(0)}
 function searchNav(dir){const r=S._searchResults;if(!r||!r.length)return;S._searchIdx=((S._searchIdx+dir)+r.length)%r.length;const hit=r[S._searchIdx];sc.textContent=`${S._searchIdx+1}/${r.length}`;document.querySelectorAll('.message').forEach((el,i)=>{el.classList.toggle('search-active',i===hit.msgIdx)});const el=document.querySelectorAll('.message')[hit.msgIdx];if(el)el.scrollIntoView({behavior:'smooth',block:'center'})}
 
-window.copyM=copyM;window.copyC=copyC;window.retryL=retryL;window.regenM=regenM;window.newChat=newChat;window.reactM=reactM;window.exportChat=exportChat;window.closeSearch=closeSearch;window.openSearch=openSearch;
+const O_GREETINGS=[()=>'yo 👋',()=>'akhirnya muncul juga.',()=>'siap bikin sesuatu?',()=>'gue SIbra.',()=>'udah siap?'],O_RESPONSES=[n=>`sip, mulai sekarang gue panggil lo ${n} 😄`,n=>`oke ${n}, workspace udah ready.`,n=>`nah, baru kerasa lengkap. gas ${n}!`,n=>`mantap ${n}, saatnya ngobrol.`],E_GREETINGS=[n=>`yo ${n} 👋`,n=>`akhirnya nongol juga, ${n}.`,n=>`mau bikin sesuatu, ${n}?`,n=>`lagi kepikiran apa, ${n}?`,n=>`ada yang bisa gue bantu, ${n}?`],E_HINTS=['tinggal tanya aja.','gue siap bantu kapan aja.','mulai aja dulu.','santai aja, gue di sini.','hari ini mau ngebuild apa?'];
+function showOnboarding(){const o=$('onboarding');o.style.display='flex';void o.offsetWidth;o.classList.add('visible');$('onboard-greeting').textContent=O_GREETINGS[Math.floor(Math.random()*O_GREETINGS.length)]();const inp=$('onboard-name'),btn=$('onboard-btn');inp.addEventListener('input',()=>{const v=inp.value.trim();btn.classList.toggle('active',v.length>0);btn.disabled=v.length===0});inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitOB()}});btn.addEventListener('click',submitOB);setTimeout(()=>inp.focus(),2200)}
+function submitOB(){const inp=$('onboard-name'),name=inp.value.trim();if(!name)return;localStorage.setItem('sibra-user-name',name);localStorage.setItem('sibra-onboarded','true');const res=$('onboard-response');res.textContent=O_RESPONSES[Math.floor(Math.random()*O_RESPONSES.length)](name);res.classList.add('show');updateGreeting(name);setTimeout(()=>{const o=$('onboarding');o.classList.add('closing');setTimeout(()=>{o.style.display='none';o.classList.remove('visible','closing');app.classList.add('visible');init()},600)},1500)}
+function updateGreeting(n){const name=n||localStorage.getItem('sibra-user-name')||'Ibra',un=$('empty-user-name');if(un)un.textContent=name;const eg=$('empty-greeting'),eh=$('empty-hint');if(eg)eg.textContent=E_GREETINGS[Math.floor(Math.random()*E_GREETINGS.length)](name);if(eh)eh.textContent=E_HINTS[Math.floor(Math.random()*E_HINTS.length)]}
+
+window.copyM=copyM;window.copyC=copyC;window.retryL=retryL;window.regenM=regenM;window.newChat=newChat;window.reactM=reactM;window.exportChat=exportChat;window.closeSearch=closeSearch;window.openSearch=openSearch;window.updateGreeting=updateGreeting;
 </script>
 </body>
 </html>
