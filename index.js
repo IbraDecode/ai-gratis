@@ -37,6 +37,9 @@ setInterval(() => {
 }, 60000);
 
 app.get("/", (req, res) => {
+  if (req.accepts("html")) {
+    return res.sendFile(__dirname + "/index.html");
+  }
   res.json({
     name: "SIbra AI",
     version: "2.2.0",
