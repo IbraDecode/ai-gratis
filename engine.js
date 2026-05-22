@@ -4,7 +4,6 @@ const { randomUUID } = require("crypto");
 
 class GeminiEngine {
   constructor() {
-    this.session = null;
     this.reqId = 1;
   }
 
@@ -13,25 +12,36 @@ class GeminiEngine {
       headers: { "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36", "accept-language": "id-ID,id;q=0.9" },
     });
     const html = await res.text();
-    this.session = { bl: html.match(/"cfb2h":"(.*?)"/)?.[1] || "", sid: html.match(/"FdrFJe":"(.*?)"/)?.[1] || "" };
+    return { bl: html.match(/"cfb2h":"(.*?)"/)?.[1] || "", sid: html.match(/"FdrFJe":"(.*?)"/)?.[1] || "" };
   }
 
   async chat(prompt) {
-    if (!this.session) await this.#fetch();
+    const session = await this.#fetch();
+    if (!session.bl || !session.sid) return null;
     const payload = [null, JSON.stringify([[prompt, 0, null, null, null, null, 0]])];
-    const q = new URLSearchParams({ bl: this.session.bl, "f.sid": this.session.sid, hl: "id", _reqid: this.reqId++, rt: "c" });
+    const q = new URLSearchParams({ bl: session.bl, "f.sid": session.sid, hl: "id", _reqid: this.reqId++, rt: "c" });
     const res = await fetch(`https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate?${q}`, {
       method: "POST", headers: { "content-type": "application/x-www-form-urlencoded;charset=UTF-8", "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36", "x-same-domain": "1", "accept-language": "id-ID,id;q=0.9" },
       body: `f.req=${encodeURIComponent(JSON.stringify(payload))}&at=`,
     });
-    if (res.status === 401 || res.status === 403) { this.session = null; return this.chat(prompt); }
     const raw = await res.text();
+    let best = "";
     for (const ln of raw.split("\n")) {
       if (ln.startsWith('[["wrb.fr"')) {
-        try { const d = JSON.parse(JSON.parse(ln)[0][2]); if (d?.[4]?.[0]?.[1]) return Array.isArray(d[4][0][1]) ? d[4][0][1][0] : d[4][0][1]; } catch (_) {}
+        try {
+          const d = JSON.parse(JSON.parse(ln)[0][2]);
+          if (d?.[4]) {
+            for (const item of d[4]) {
+              if (Array.isArray(item) && item[1]) {
+                const text = Array.isArray(item[1]) ? item[1].join("") : item[1];
+                if (typeof text === "string" && text.length > best.length) best = text;
+              }
+            }
+          }
+        } catch (_) {}
       }
     }
-    return null;
+    return best || null;
   }
 }
 
