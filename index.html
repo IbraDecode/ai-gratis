@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIbra AI - API Docs</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e4e4e7;line-height:1.6}
+  .container{max-width:960px;margin:0 auto;padding:20px}
+  header{text-align:center;padding:40px 0;border-bottom:1px solid #27272a;margin-bottom:40px}
+  header h1{font-size:2.5em;background:linear-gradient(135deg,#818cf8,#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  header p{color:#a1a1aa;margin-top:8px}
+  h2{color:#a78bfa;margin:30px 0 15px;font-size:1.4em}
+  h3{color:#e4e4e7;margin:20px 0 10px}
+  .card{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin:12px 0}
+  code{background:#27272a;padding:2px 6px;border-radius:4px;font-size:.9em;color:#a78bfa}
+  pre{background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;margin:10px 0;font-size:.85em}
+  table{width:100%;border-collapse:collapse;margin:12px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #27272a}
+  th{color:#a1a1aa;font-weight:600;font-size:.85em;text-transform:uppercase}
+  td{font-size:.9em}
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75em;font-weight:600}
+  .badge.green{background:#14532d;color:#4ade80}
+  .badge.yellow{background:#451a03;color:#fbbf24}
+  .endpoint{font-family:monospace;font-size:1.1em}
+  .endpoint span{color:#818cf8;font-weight:600}
+  .try-card{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px}
+  .try-card textarea,.try-card select{width:100%;background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:12px;color:#e4e4e7;font-family:monospace;font-size:.9em;margin:6px 0}
+  .try-card select{cursor:pointer}
+  .try-card button{background:#818cf8;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:.95em;cursor:pointer;transition:all .2s}
+  .try-card button:hover{background:#6d77e0}
+  .try-card button:disabled{opacity:.5;cursor:not-allowed}
+  #response-area{background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:16px;min-height:80px;margin:10px 0;font-family:monospace;font-size:.85em;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+  #response-area .streaming{color:#4ade80}
+  #response-area .done{color:#a1a1aa;margin-top:8px;border-top:1px solid #27272a;padding-top:8px}
+  #response-area .error{color:#f87171}
+  .footer{text-align:center;padding:30px 0;color:#52525b;font-size:.85em;border-top:1px solid #27272a;margin-top:50px}
+  .flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #18181b;font-size:.9em}
+  .info-row span:first-child{color:#a1a1aa}
+  nav{display:flex;gap:20px;justify-content:center;padding:15px 0;flex-wrap:wrap}
+  nav a{color:#818cf8;text-decoration:none;font-size:.9em}
+  nav a:hover{color:#a78bfa}
+  .stream-toggle{display:flex;align-items:center;gap:10px;margin:10px 0}
+  .stream-toggle label{cursor:pointer;display:flex;align-items:center;gap:6px;color:#a1a1aa;font-size:.9em}
+  .copy-btn{background:#27272a;border:none;color:#a1a1aa;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:.75em;float:right}
+  .copy-btn:hover{background:#3f3f46}
+  @media(max-width:640px){header h1{font-size:1.8em}.container{padding:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SIbra AI</h1>
+  <p>Multi-Engine AI API by Ibra Decode</p>
+  <nav>
+    <a href="#docs">Dokumentasi</a>
+    <a href="#try">Coba Langsung</a>
+    <a href="#models">Model</a>
+  </nav>
+</header>
+
+<section id="info">
+  <div class="card">
+    <div class="info-row"><span>Base URL</span><code>${SIbraAI_URL || 'http://localhost:3000'}</code></div>
+    <div class="info-row"><span>Version</span><code>2.2.0</code></div>
+    <div class="info-row"><span>Author</span><span>Ibra Decode</span></div>
+  </div>
+</section>
+
+<section id="models">
+  <h2>Model</h2>
+  <table>
+    <tr><th>ID</th><th>Nama</th><th>Engine</th><th>Status</th></tr>
+    <tr><td><code>gemini</code></td><td>Gemini</td><td>Google Gemini</td><td><span class="badge green">Aktif</span></td></tr>
+    <tr><td><code>unlimited-std</code></td><td>Standard</td><td>UnlimitedAI</td><td><span class="badge green">Aktif</span></td></tr>
+    <tr><td><code>gpt</code></td><td>GPT-5.4 Mini</td><td>GPT</td><td><span class="badge green">Aktif</span></td></tr>
+  </table>
+</section>
+
+<section id="docs">
+  <h2>Endpoint</h2>
+
+  <div class="card">
+    <div class="endpoint"><span>GET</span> /</div>
+    <p style="color:#a1a1aa;margin-top:4px">Info API</p>
+  </div>
+
+  <div class="card">
+    <div class="endpoint"><span>GET</span> /api/models</div>
+    <p style="color:#a1a1aa;margin-top:4px">Daftar model tersedia</p>
+  </div>
+
+  <div class="card">
+    <div class="endpoint"><span>GET</span> /health</div>
+    <p style="color:#a1a1aa;margin-top:4px">Health check server</p>
+  </div>
+
+  <div class="card">
+    <div class="endpoint"><span>POST</span> /api/chat</div>
+    <p style="color:#a1a1aa;margin-top:4px">Kirim prompt ke AI</p>
+    
+    <h3 style="margin-top:16px">Request Body</h3>
+    <pre>{
+  "prompt": "halo siapa kamu?",
+  "model": "gemini",
+  "stream": false,
+  "session": null
+}</pre>
+
+    <table>
+      <tr><th>Field</th><th>Tipe</th><th>Default</th><th>Keterangan</th></tr>
+      <tr><td><code>prompt</code></td><td>string</td><td>-</td><td>wajib, maks 10.000 karakter</td></tr>
+      <tr><td><code>model</code></td><td>string</td><td><code>gemini</code></td><td>ID model dari daftar</td></tr>
+      <tr><td><code>stream</code></td><td>boolean</td><td><code>false</code></td><td>streaming response</td></tr>
+      <tr><td><code>session</code></td><td>string</td><td><code>null</code></td><td>session ID untuk memori percakapan</td></tr>
+    </table>
+
+    <h3 style="margin-top:16px">Response (non-stream)</h3>
+    <pre>{
+  "status": true,
+  "model": "gemini",
+  "prompt": "halo siapa kamu?",
+  "response": "Halo! Saya Gemini...",
+  "session": "uuid-session-id"
+}</pre>
+
+    <h3 style="margin-top:16px">Contoh cURL</h3>
+    <pre style="position:relative">
+curl -X POST ${SIbraAI_URL || 'http://localhost:3000'}/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"cerita pendek","model":"gemini"}'</pre>
+
+    <h3 style="margin-top:16px">Streaming</h3>
+    <pre>
+curl -N -X POST ${SIbraAI_URL || 'http://localhost:3000'}/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"cerita pendek","model":"gemini","stream":true}'</pre>
+
+    <p style="color:#a1a1aa;font-size:.9em">
+      Response streaming berupa SSE:<br>
+      <code>data: {"delta":"Halo"}</code><br>
+      <code>data: {"delta":"! Saya"}</code><br>
+      <code>data: {"done":true,"session":"uuid"}</code>
+    </p>
+  </div>
+</section>
+
+<section id="try">
+  <h2>Coba Langsung</h2>
+  <div class="try-card">
+    <textarea id="prompt-input" rows="3" placeholder="Masukkan prompt...">halo siapa kamu?</textarea>
+
+    <div class="flex">
+      <select id="model-select">
+        <option value="gemini">Gemini</option>
+        <option value="unlimited-std">Standard</option>
+        <option value="gpt">GPT-5.4 Mini</option>
+      </select>
+
+      <div class="stream-toggle">
+        <label>
+          <input type="checkbox" id="stream-check">
+          Streaming
+        </label>
+      </div>
+    </div>
+
+    <div class="flex" style="margin-top:12px">
+      <button id="send-btn" onclick="send()">Kirim</button>
+      <button id="stop-btn" onclick="stopStream()" style="display:none;background:#f87171">Stop</button>
+      <button onclick="clearResponse()" style="background:#27272a;color:#a1a1aa">Clear</button>
+      <span id="timer" style="color:#52525b;font-size:.85em"></span>
+    </div>
+
+    <h3 style="margin:12px 0 6px;font-size:.9em;color:#a1a1aa">Response:</h3>
+    <div id="response-area">Belum ada response...</div>
+  </div>
+</section>
+
+<footer class="footer">
+  SIbra AI by Ibra Decode &mdash; powered by Gemini, UnlimitedAI, GPT
+</footer>
+
+</div>
+
+<script>
+let controller = null;
+let baseUrl = window.location.origin;
+
+async function send() {
+  const prompt = document.getElementById('prompt-input').value.trim();
+  if (!prompt) return alert('Prompt harus diisi!');
+
+  const model = document.getElementById('model-select').value;
+  const stream = document.getElementById('stream-check').checked;
+  const area = document.getElementById('response-area');
+  const btn = document.getElementById('send-btn');
+  const stopBtn = document.getElementById('stop-btn');
+  const timer = document.getElementById('timer');
+
+  area.innerHTML = '';
+  area.className = '';
+  btn.disabled = true;
+  btn.textContent = 'Mengirim...';
+  timer.textContent = '';
+
+  let startTime = Date.now();
+  let timerInterval = setInterval(() => {
+    timer.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+  }, 100);
+
+  if (stream) {
+    controller = new AbortController();
+    stopBtn.style.display = 'inline-block';
+
+    try {
+      const res = await fetch(baseUrl + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, model, stream: true }),
+        signal: controller.signal,
+      });
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let full = '';
+      let sessionId = null;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const text = decoder.decode(value, { stream: true });
+        const lines = text.split('\n');
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.replace('data: ', '').trim();
+          if (!raw) continue;
+
+          try {
+            const json = JSON.parse(raw);
+            if (json.delta) {
+              full += json.delta;
+              area.innerHTML = '<span class="streaming">' + escapeHtml(full) + '</span>';
+              area.scrollTop = area.scrollHeight;
+            }
+            if (json.done) {
+              sessionId = json.session;
+              area.innerHTML = '<span class="streaming">' + escapeHtml(full) + '</span>'
+                + '<div class="done">✅ Selesai' + (sessionId ? ' | Session: ' + sessionId : '') + '</div>';
+            }
+            if (json.error) {
+              area.innerHTML = '<span class="error">❌ ' + escapeHtml(json.error) + '</span>';
+            }
+          } catch(e) {}
+        }
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        area.innerHTML = '<span class="error">❌ ' + escapeHtml(err.message) + '</span>';
+      }
+    }
+  } else {
+    try {
+      const res = await fetch(baseUrl + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, model }),
+      });
+      const data = await res.json();
+      if (data.status && data.response) {
+        area.innerHTML = '<div>' + escapeHtml(data.response) + '</div>'
+          + '<div class="done">📝 Model: ' + data.model + (data.session ? ' | Session: ' + data.session : '') + '</div>';
+      } else {
+        area.innerHTML = '<span class="error">❌ ' + escapeHtml(data.error || 'Gagal') + '</span>';
+      }
+    } catch (err) {
+      area.innerHTML = '<span class="error">❌ ' + escapeHtml(err.message) + '</span>';
+    }
+  }
+
+  clearInterval(timerInterval);
+  btn.disabled = false;
+  btn.textContent = 'Kirim';
+  stopBtn.style.display = 'none';
+  controller = null;
+}
+
+function stopStream() {
+  if (controller) {
+    controller.abort();
+    controller = null;
+  }
+  document.getElementById('stop-btn').style.display = 'none';
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('send-btn').textContent = 'Kirim';
+}
+
+function clearResponse() {
+  document.getElementById('response-area').innerHTML = 'Belum ada response...';
+  document.getElementById('response-area').className = '';
+  document.getElementById('timer').textContent = '';
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Auto-detect base URL
+if (window.location.port === '3000' || window.location.port === '3030' || window.location.port === '') {
+  // Use relative path
+} else {
+  // Custom port? use origin
+}
+</script>
+</body>
+</html>

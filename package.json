@@ -1,0 +1,16 @@
+{
+  "name": "sibra-ai",
+  "version": "2.0.0",
+  "description": "SIbra AI - Multi-Engine AI API by Ibra Decode",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Ibra Decode",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-fetch": "^2.7.0"
+  }
+}
