@@ -3,106 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIbra AI - API Docs</title>
+<title>SIbra AI — API Docs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
+  :root{--bg:#0c0c0e;--bg2:#141416;--bg3:#1c1c1f;--border:#2a2a2e;--text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;--accent:#818cf8;--accent2:#6366f1;--green:#4ade80;--red:#f87171;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'SF Mono','JetBrains Mono','Fira Code',monospace}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e4e4e7;line-height:1.6}
-  .container{max-width:960px;margin:0 auto;padding:20px}
-  header{text-align:center;padding:40px 0;border-bottom:1px solid #27272a;margin-bottom:40px}
-  header h1{font-size:2.5em;background:linear-gradient(135deg,#818cf8,#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  header p{color:#a1a1aa;margin-top:8px}
-  h2{color:#a78bfa;margin:30px 0 15px;font-size:1.4em}
-  h3{color:#e4e4e7;margin:20px 0 10px}
-  .card{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px;margin:12px 0}
-  code{background:#27272a;padding:2px 6px;border-radius:4px;font-size:.9em;color:#a78bfa}
-  pre{background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:16px;overflow-x:auto;margin:10px 0;font-size:.85em}
-  table{width:100%;border-collapse:collapse;margin:12px 0}
-  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #27272a}
-  th{color:#a1a1aa;font-weight:600;font-size:.85em;text-transform:uppercase}
-  td{font-size:.9em}
-  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75em;font-weight:600}
-  .badge.green{background:#14532d;color:#4ade80}
-  .badge.yellow{background:#451a03;color:#fbbf24}
-  .endpoint{font-family:monospace;font-size:1.1em}
-  .endpoint span{color:#818cf8;font-weight:600}
-  .try-card{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:20px}
-  .try-card textarea,.try-card select{width:100%;background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:12px;color:#e4e4e7;font-family:monospace;font-size:.9em;margin:6px 0}
-  .try-card select{cursor:pointer}
-  .try-card button{background:#818cf8;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:.95em;cursor:pointer;transition:all .2s}
-  .try-card button:hover{background:#6d77e0}
-  .try-card button:disabled{opacity:.5;cursor:not-allowed}
-  #response-area{background:#0f0f13;border:1px solid #27272a;border-radius:8px;padding:16px;min-height:80px;margin:10px 0;font-family:monospace;font-size:.85em;white-space:pre-wrap;max-height:300px;overflow-y:auto}
-  #response-area .streaming{color:#4ade80}
-  #response-area .done{color:#a1a1aa;margin-top:8px;border-top:1px solid #27272a;padding-top:8px}
-  #response-area .error{color:#f87171}
-  .footer{text-align:center;padding:30px 0;color:#52525b;font-size:.85em;border-top:1px solid #27272a;margin-top:50px}
-  .flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #18181b;font-size:.9em}
-  .info-row span:first-child{color:#a1a1aa}
-  nav{display:flex;gap:20px;justify-content:center;padding:15px 0;flex-wrap:wrap}
-  nav a{color:#818cf8;text-decoration:none;font-size:.9em}
-  nav a:hover{color:#a78bfa}
-  .stream-toggle{display:flex;align-items:center;gap:10px;margin:10px 0}
-  .stream-toggle label{cursor:pointer;display:flex;align-items:center;gap:6px;color:#a1a1aa;font-size:.9em}
-  .copy-btn{background:#27272a;border:none;color:#a1a1aa;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:.75em;float:right}
-  .copy-btn:hover{background:#3f3f46}
-  @media(max-width:640px){header h1{font-size:1.8em}.container{padding:12px}}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;display:flex;min-height:100vh}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:#a5b4fc}
+  code{font-family:var(--mono);font-size:.85em;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--accent)}
+  pre{font-family:var(--mono);font-size:.82em;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:10px 0;line-height:1.5;position:relative}
+  pre .copy{position:absolute;top:8px;right:8px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:.75em}
+  pre .copy:hover{background:var(--bg3);color:var(--text)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9em}
+  th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;font-size:.8em;text-transform:uppercase;letter-spacing:.05em}
+  td{padding:10px 12px;border-bottom:1px solid var(--border)}
+
+  /* Sidebar */
+  .sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);padding:24px;overflow-y:auto;position:sticky;top:0;height:100vh}
+  .sidebar h1{font-size:1.2em;font-weight:700;margin-bottom:4px;background:linear-gradient(135deg,var(--accent),#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sidebar .sub{color:var(--text3);font-size:.75em;margin-bottom:24px}
+  .sidebar nav{display:flex;flex-direction:column;gap:2px}
+  .sidebar nav a{padding:6px 10px;border-radius:6px;color:var(--text2);font-size:.85em;transition:all .15s}
+  .sidebar nav a:hover{background:var(--bg3);color:var(--text)}
+  .sidebar nav a.active{background:var(--bg3);color:var(--accent);font-weight:500}
+  .sidebar .section{font-size:.7em;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:16px 10px 4px;font-weight:600}
+
+  /* Main */
+  .main{flex:1;padding:40px 48px;max-width:960px}
+  @media(max-width:768px){.sidebar{display:none}.main{padding:20px 16px}}
+
+  h1{font-size:2em;font-weight:700;margin-bottom:4px}
+  h2{font-size:1.3em;font-weight:600;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  h3{font-size:1em;font-weight:600;margin:24px 0 8px}
+  .subtitle{color:var(--text2);margin-bottom:32px;font-size:.95em}
+
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin:12px 0}
+  .card .row{display:flex;justify-content:space-between;padding:6px 0;font-size:.9em;border-bottom:1px solid var(--bg3)}
+  .card .row:last-child{border-bottom:none}
+  .card .row .label{color:var(--text3)}
+  .card .row .value{color:var(--text)}
+
+  .endpoint-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:8px 0;font-family:var(--mono);font-size:.85em}
+  .method{display:inline-block;padding:2px 8px;border-radius:4px;font-weight:700;font-size:.75em;letter-spacing:.05em;min-width:44px;text-align:center}
+  .method.get{background:#14532d;color:var(--green)}
+  .method.post{background:#1e3a5f;color:#60a5fa}
+  .path{flex:1}
+  .desc{color:var(--text2);font-size:.85em;font-family:var(--font)}
+
+  .badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.75em;font-weight:600}
+  .badge.green{background:#14532d;color:var(--green)}
+
+  .playground{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin:12px 0}
+  .playground textarea,.playground select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:.85em;margin:4px 0}
+  .playground select{cursor:pointer;font-family:var(--font)}
+  .playground .flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:.88em;cursor:pointer;transition:all .15s;font-family:var(--font)}
+  .btn:hover{background:var(--accent2)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn.ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+  .btn.ghost:hover{background:var(--border);color:var(--text)}
+  .btn.danger{background:#7f1d1d;color:var(--red)}
+  #response{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px;min-height:60px;margin:8px 0;font-family:var(--mono);font-size:.82em;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+  #response .streaming{color:var(--green)}
+  #response .error{color:var(--red)}
+  #response .done{color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:.9em}
+  .tag{font-size:.7em;color:var(--text3);margin-left:6px}
+  .footer{text-align:center;padding:32px 0 16px;color:var(--text3);font-size:.8em;border-top:1px solid var(--border);margin-top:40px}
 </style>
 </head>
 <body>
-<div class="container">
 
-<header>
-  <h1>SIbra AI</h1>
-  <p>Multi-Engine AI API by Ibra Decode</p>
+<div class="sidebar">
+  <h1>⚡ SIbra AI</h1>
+  <div class="sub">by Ibra Decode</div>
   <nav>
-    <a href="#docs">Dokumentasi</a>
-    <a href="#try">Coba Langsung</a>
-    <a href="#models">Model</a>
+    <div class="section">Getting Started</div>
+    <a href="#intro" class="active">Introduction</a>
+    <a href="#models">Models</a>
+    <a href="#auth">Authentication</a>
+    <div class="section">Endpoints</div>
+    <a href="#chat">Chat</a>
+    <a href="#streaming">Streaming</a>
+    <a href="#health">Health</a>
+    <div class="section">Try It</div>
+    <a href="#playground">Playground</a>
   </nav>
-</header>
+</div>
 
-<section id="info">
-  <div class="card">
-    <div class="info-row"><span>Base URL</span><code>${SIbraAI_URL || 'http://localhost:3000'}</code></div>
-    <div class="info-row"><span>Version</span><code>2.2.0</code></div>
-    <div class="info-row"><span>Author</span><span>Ibra Decode</span></div>
-  </div>
-</section>
+<div class="main">
 
-<section id="models">
-  <h2>Model</h2>
-  <table>
-    <tr><th>ID</th><th>Nama</th><th>Engine</th><th>Status</th></tr>
-    <tr><td><code>gemini</code></td><td>Gemini</td><td>Google Gemini</td><td><span class="badge green">Aktif</span></td></tr>
-    <tr><td><code>unlimited-std</code></td><td>Standard</td><td>UnlimitedAI</td><td><span class="badge green">Aktif</span></td></tr>
-    <tr><td><code>gpt</code></td><td>GPT-5.4 Mini</td><td>GPT</td><td><span class="badge green">Aktif</span></td></tr>
-  </table>
-</section>
+  <section id="intro">
+    <h1>SIbra AI API</h1>
+    <p class="subtitle">Multi-engine AI API. Chat dengan Gemini, Standard, atau GPT. by Ibra Decode.</p>
 
-<section id="docs">
-  <h2>Endpoint</h2>
+    <div class="card">
+      <div class="row"><span class="label">Base URL</span><span class="value"><code id="base-url">https://ai-gratis-by-ibra-decode.vercel.app</code></span></div>
+      <div class="row"><span class="label">Version</span><span class="value">2.2.0</span></div>
+      <div class="row"><span class="label">Author</span><span class="value">Ibra Decode</span></div>
+    </div>
 
-  <div class="card">
-    <div class="endpoint"><span>GET</span> /</div>
-    <p style="color:#a1a1aa;margin-top:4px">Info API</p>
-  </div>
+    <p style="margin:16px 0;color:var(--text2);font-size:.92em">
+      SIbra AI adalah API yang menggabungkan beberapa engine AI dalam satu endpoint.
+      Pilih model sesuai kebutuhan, dan dapatkan response dalam format JSON atau streaming.
+    </p>
+  </section>
 
-  <div class="card">
-    <div class="endpoint"><span>GET</span> /api/models</div>
-    <p style="color:#a1a1aa;margin-top:4px">Daftar model tersedia</p>
-  </div>
+  <section id="models">
+    <h2>Models</h2>
+    <table>
+      <tr><th>ID</th><th>Name</th><th>Engine</th><th>Status</th></tr>
+      <tr><td><code>gemini</code></td><td>Gemini</td><td>Google Gemini</td><td><span class="badge green">active</span></td></tr>
+      <tr><td><code>unlimited-std</code></td><td>Standard</td><td>UnlimitedAI</td><td><span class="badge green">active</span></td></tr>
+      <tr><td><code>gpt</code></td><td>GPT-5.4 Mini</td><td>GPT</td><td><span class="badge green">active</span></td></tr>
+    </table>
+  </section>
 
-  <div class="card">
-    <div class="endpoint"><span>GET</span> /health</div>
-    <p style="color:#a1a1aa;margin-top:4px">Health check server</p>
-  </div>
+  <section id="auth">
+    <h2>Authentication</h2>
+    <p style="color:var(--text2);font-size:.9em">Tidak perlu authentication. API ini gratis dan terbuka untuk umum.</p>
+  </section>
 
-  <div class="card">
-    <div class="endpoint"><span>POST</span> /api/chat</div>
-    <p style="color:#a1a1aa;margin-top:4px">Kirim prompt ke AI</p>
-    
-    <h3 style="margin-top:16px">Request Body</h3>
+  <section id="chat">
+    <h2>Chat</h2>
+    <p style="color:var(--text2);font-size:.9em;margin-bottom:12px">Kirim prompt ke AI dan dapatkan response.</p>
+
+    <div class="endpoint-row">
+      <span class="method post">POST</span>
+      <span class="path">/api/chat</span>
+    </div>
+
+    <h3>Request Body</h3>
     <pre>{
   "prompt": "halo siapa kamu?",
   "model": "gemini",
@@ -111,213 +142,204 @@
 }</pre>
 
     <table>
-      <tr><th>Field</th><th>Tipe</th><th>Default</th><th>Keterangan</th></tr>
-      <tr><td><code>prompt</code></td><td>string</td><td>-</td><td>wajib, maks 10.000 karakter</td></tr>
-      <tr><td><code>model</code></td><td>string</td><td><code>gemini</code></td><td>ID model dari daftar</td></tr>
-      <tr><td><code>stream</code></td><td>boolean</td><td><code>false</code></td><td>streaming response</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>prompt</code></td><td>string</td><td>—</td><td>wajib, maks 10.000 karakter</td></tr>
+      <tr><td><code>model</code></td><td>string</td><td><code>gemini</code></td><td>ID model</td></tr>
+      <tr><td><code>stream</code></td><td>boolean</td><td><code>false</code></td><td>streaming SSE</td></tr>
       <tr><td><code>session</code></td><td>string</td><td><code>null</code></td><td>session ID untuk memori percakapan</td></tr>
     </table>
 
-    <h3 style="margin-top:16px">Response (non-stream)</h3>
+    <h3>Response</h3>
     <pre>{
   "status": true,
   "model": "gemini",
   "prompt": "halo siapa kamu?",
   "response": "Halo! Saya Gemini...",
-  "session": "uuid-session-id"
+  "session": "uuid"
 }</pre>
 
-    <h3 style="margin-top:16px">Contoh cURL</h3>
-    <pre style="position:relative">
-curl -X POST ${SIbraAI_URL || 'http://localhost:3000'}/api/chat \
+    <h3>cURL</h3>
+    <pre id="curl-example">curl -X POST https://ai-gratis-by-ibra-decode.vercel.app/api/chat \
   -H "Content-Type: application/json" \
   -d '{"prompt":"cerita pendek","model":"gemini"}'</pre>
+  </section>
 
-    <h3 style="margin-top:16px">Streaming</h3>
-    <pre>
-curl -N -X POST ${SIbraAI_URL || 'http://localhost:3000'}/api/chat \
+  <section id="streaming">
+    <h2>Streaming</h2>
+    <p style="color:var(--text2);font-size:.9em;margin-bottom:12px">Mendapatkan response secara real-time via SSE (Server-Sent Events).</p>
+
+    <div class="endpoint-row">
+      <span class="method post">POST</span>
+      <span class="path">/api/chat</span>
+      <span class="desc">dengan parameter <code>stream: true</code></span>
+    </div>
+
+    <pre>curl -N -X POST https://ai-gratis-by-ibra-decode.vercel.app/api/chat \
   -H "Content-Type: application/json" \
   -d '{"prompt":"cerita pendek","model":"gemini","stream":true}'</pre>
 
-    <p style="color:#a1a1aa;font-size:.9em">
-      Response streaming berupa SSE:<br>
-      <code>data: {"delta":"Halo"}</code><br>
-      <code>data: {"delta":"! Saya"}</code><br>
-      <code>data: {"done":true,"session":"uuid"}</code>
-    </p>
-  </div>
-</section>
+    <p style="color:var(--text2);font-size:.85em;margin-top:8px">Streaming response format:</p>
+    <pre>data: {"delta":"Halo"}
+data: {"delta":"! Saya"}
+data: {"delta":" Gemini"}
+data: {"done":true,"session":"uuid"}</pre>
+  </section>
 
-<section id="try">
-  <h2>Coba Langsung</h2>
-  <div class="try-card">
-    <textarea id="prompt-input" rows="3" placeholder="Masukkan prompt...">halo siapa kamu?</textarea>
+  <section id="health">
+    <h2>Health</h2>
+    <p style="color:var(--text2);font-size:.9em;margin-bottom:12px">Cek status server.</p>
 
-    <div class="flex">
-      <select id="model-select">
-        <option value="gemini">Gemini</option>
-        <option value="unlimited-std">Standard</option>
-        <option value="gpt">GPT-5.4 Mini</option>
-      </select>
+    <div class="endpoint-row">
+      <span class="method get">GET</span>
+      <span class="path">/health</span>
+    </div>
 
-      <div class="stream-toggle">
-        <label>
-          <input type="checkbox" id="stream-check">
-          Streaming
+    <h3>cURL</h3>
+    <pre>curl https://ai-gratis-by-ibra-decode.vercel.app/health</pre>
+
+    <h3>Response</h3>
+    <pre>{
+  "status": "ok",
+  "uptime": 3600,
+  "memory": 84389888,
+  "conversations": 0,
+  "models": 3
+}</pre>
+  </section>
+
+  <section id="playground">
+    <h2>Playground</h2>
+    <p style="color:var(--text2);font-size:.9em;margin-bottom:12px">Coba langsung API di sini.</p>
+
+    <div class="playground">
+      <textarea id="prompt" rows="3" placeholder="Masukkan prompt...">halo siapa kamu?</textarea>
+
+      <div class="flex">
+        <select id="model">
+          <option value="gemini">Gemini</option>
+          <option value="unlimited-std">Standard</option>
+          <option value="gpt">GPT-5.4 Mini</option>
+        </select>
+
+        <label style="display:flex;align-items:center;gap:6px;color:var(--text2);font-size:.85em;cursor:pointer;margin-left:4px">
+          <input type="checkbox" id="stream"> Stream
         </label>
       </div>
+
+      <div class="flex">
+        <button class="btn" id="sendBtn" onclick="send()">Send Request</button>
+        <button class="btn danger" id="stopBtn" onclick="stop()" style="display:none">Stop</button>
+        <button class="btn ghost" onclick="clearResp()">Clear</button>
+        <span id="timer" style="color:var(--text3);font-size:.8em"></span>
+      </div>
+
+      <h3 style="font-size:.85em;margin:12px 0 6px;color:var(--text2)">Response:</h3>
+      <div id="response">Belum ada response.</div>
     </div>
+  </section>
 
-    <div class="flex" style="margin-top:12px">
-      <button id="send-btn" onclick="send()">Kirim</button>
-      <button id="stop-btn" onclick="stopStream()" style="display:none;background:#f87171">Stop</button>
-      <button onclick="clearResponse()" style="background:#27272a;color:#a1a1aa">Clear</button>
-      <span id="timer" style="color:#52525b;font-size:.85em"></span>
-    </div>
-
-    <h3 style="margin:12px 0 6px;font-size:.9em;color:#a1a1aa">Response:</h3>
-    <div id="response-area">Belum ada response...</div>
-  </div>
-</section>
-
-<footer class="footer">
-  SIbra AI by Ibra Decode &mdash; powered by Gemini, UnlimitedAI, GPT
-</footer>
-
+  <footer class="footer">
+    SIbra AI by Ibra Decode &middot; powered by Gemini, UnlimitedAI, GPT
+  </footer>
 </div>
 
 <script>
 let controller = null;
-let baseUrl = window.location.origin;
+const base = window.location.origin;
+
+function $(id) { return document.getElementById(id); }
 
 async function send() {
-  const prompt = document.getElementById('prompt-input').value.trim();
+  const prompt = $('prompt').value.trim();
   if (!prompt) return alert('Prompt harus diisi!');
-
-  const model = document.getElementById('model-select').value;
-  const stream = document.getElementById('stream-check').checked;
-  const area = document.getElementById('response-area');
-  const btn = document.getElementById('send-btn');
-  const stopBtn = document.getElementById('stop-btn');
-  const timer = document.getElementById('timer');
-
-  area.innerHTML = '';
-  area.className = '';
+  
+  const model = $('model').value;
+  const stream = $('stream').checked;
+  const resp = $('response');
+  const btn = $('sendBtn');
+  
+  resp.innerHTML = '';
   btn.disabled = true;
-  btn.textContent = 'Mengirim...';
-  timer.textContent = '';
-
-  let startTime = Date.now();
-  let timerInterval = setInterval(() => {
-    timer.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
-  }, 100);
+  btn.textContent = 'Sending...';
+  $('stopBtn').style.display = 'none';
+  
+  let start = Date.now();
+  let timer = setInterval(() => $('timer').textContent = ((Date.now()-start)/1000).toFixed(1)+'s', 100);
 
   if (stream) {
     controller = new AbortController();
-    stopBtn.style.display = 'inline-block';
-
+    $('stopBtn').style.display = 'inline-block';
     try {
-      const res = await fetch(baseUrl + '/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, model, stream: true }),
+      const res = await fetch(base+'/api/chat', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({prompt, model, stream: true}),
         signal: controller.signal,
       });
-
       const reader = res.body.getReader();
-      const decoder = new TextDecoder();
+      const dec = new TextDecoder();
       let full = '';
-      let sessionId = null;
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const text = decoder.decode(value, { stream: true });
-        const lines = text.split('\n');
-
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const raw = line.replace('data: ', '').trim();
-          if (!raw) continue;
-
+      while(true) {
+        const {done, value} = await reader.read();
+        if(done) break;
+        const lines = dec.decode(value, {stream:true}).split('\n');
+        for(const line of lines) {
+          if(!line.startsWith('data: ')) continue;
+          const raw = line.replace('data: ','').trim();
+          if(!raw) continue;
           try {
-            const json = JSON.parse(raw);
-            if (json.delta) {
-              full += json.delta;
-              area.innerHTML = '<span class="streaming">' + escapeHtml(full) + '</span>';
-              area.scrollTop = area.scrollHeight;
-            }
-            if (json.done) {
-              sessionId = json.session;
-              area.innerHTML = '<span class="streaming">' + escapeHtml(full) + '</span>'
-                + '<div class="done">✅ Selesai' + (sessionId ? ' | Session: ' + sessionId : '') + '</div>';
-            }
-            if (json.error) {
-              area.innerHTML = '<span class="error">❌ ' + escapeHtml(json.error) + '</span>';
-            }
+            const j = JSON.parse(raw);
+            if(j.delta) { full += j.delta; resp.innerHTML = '<span class="streaming">'+esc(full)+'</span>'; }
+            if(j.done) resp.innerHTML = '<span class="streaming">'+esc(full)+'</span><div class="done">✅ Done'+(j.session ? ' | Session: '+j.session : '')+'</div>';
+            if(j.error) resp.innerHTML = '<span class="error">❌ '+esc(j.error)+'</span>';
           } catch(e) {}
         }
       }
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        area.innerHTML = '<span class="error">❌ ' + escapeHtml(err.message) + '</span>';
-      }
-    }
+    } catch(e) { if(e.name !== 'AbortError') resp.innerHTML = '<span class="error">❌ '+esc(e.message)+'</span>'; }
   } else {
     try {
-      const res = await fetch(baseUrl + '/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, model }),
+      const res = await fetch(base+'/api/chat', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({prompt, model}),
       });
-      const data = await res.json();
-      if (data.status && data.response) {
-        area.innerHTML = '<div>' + escapeHtml(data.response) + '</div>'
-          + '<div class="done">📝 Model: ' + data.model + (data.session ? ' | Session: ' + data.session : '') + '</div>';
+      const d = await res.json();
+      if(d.status && d.response) {
+        resp.innerHTML = '<div>'+esc(d.response)+'</div><div class="done">📝 '+d.model+(d.session ? ' | Session: '+d.session : '')+'</div>';
       } else {
-        area.innerHTML = '<span class="error">❌ ' + escapeHtml(data.error || 'Gagal') + '</span>';
+        resp.innerHTML = '<span class="error">❌ '+esc(d.error||'Gagal')+'</span>';
       }
-    } catch (err) {
-      area.innerHTML = '<span class="error">❌ ' + escapeHtml(err.message) + '</span>';
-    }
+    } catch(e) { resp.innerHTML = '<span class="error">❌ '+esc(e.message)+'</span>'; }
   }
-
-  clearInterval(timerInterval);
+  
+  clearInterval(timer);
   btn.disabled = false;
-  btn.textContent = 'Kirim';
-  stopBtn.style.display = 'none';
+  btn.textContent = 'Send Request';
+  $('stopBtn').style.display = 'none';
   controller = null;
 }
 
-function stopStream() {
-  if (controller) {
-    controller.abort();
-    controller = null;
-  }
-  document.getElementById('stop-btn').style.display = 'none';
-  document.getElementById('send-btn').disabled = false;
-  document.getElementById('send-btn').textContent = 'Kirim';
-}
+function stop() { if(controller) { controller.abort(); controller=null; } $('stopBtn').style.display='none'; $('sendBtn').disabled=false; $('sendBtn').textContent='Send Request'; }
+function clearResp() { $('response').innerHTML = 'Belum ada response.'; $('timer').textContent = ''; }
+function esc(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
 
-function clearResponse() {
-  document.getElementById('response-area').innerHTML = 'Belum ada response...';
-  document.getElementById('response-area').className = '';
-  document.getElementById('timer').textContent = '';
-}
+// Smooth scroll sidebar
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    document.querySelectorAll('.sidebar a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
 
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// Auto-detect base URL
-if (window.location.port === '3000' || window.location.port === '3030' || window.location.port === '') {
-  // Use relative path
-} else {
-  // Custom port? use origin
-}
+// Copy curl example
+document.querySelectorAll('pre .copy').forEach(b => {
+  b.addEventListener('click', () => {
+    const code = b.parentElement.textContent.replace('Copy','').trim();
+    navigator.clipboard.writeText(code);
+    b.textContent = 'Copied!';
+    setTimeout(() => b.textContent = 'Copy', 2000);
+  });
+});
 </script>
 </body>
 </html>
